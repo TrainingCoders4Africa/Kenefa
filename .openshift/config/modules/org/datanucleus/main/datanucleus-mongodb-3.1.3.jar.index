@@ -1,0 +1,13 @@
+
+org/datanucleus/store/mongodb
+META-INF/maven
+META-INF/maven/org.datanucleus/datanucleus-mongodb
+org/datanucleus/store/mongodb/query/expression
+org/datanucleus/store/mongodb/fieldmanager
+org/datanucleus/store/mongodb/valuegenerator
+org
+META-INF
+org/datanucleus/store
+META-INF/maven/org.datanucleus
+org/datanucleus
+org/datanucleus/store/mongodb/query

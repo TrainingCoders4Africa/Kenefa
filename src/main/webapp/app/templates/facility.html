@@ -1,0 +1,14 @@
+
+        <% _.each(facilities.toJSON(), function(facility, id) { %>
+            <tr class="props" data-id=<%= id %>>
+                <td data-prop="name"><%= facility.name %></td>
+                <td data-prop="address"><%= facility.address %></td>
+                <td data-prop="email"><%= facility.email %></td>
+                <td data-prop="phone"><%= facility.phone %>
+                <td data-prop="latitude"><%= facility.latitude %>
+                <td data-prop="longitude"><%= facility.longitude %>
+                <i class="icon-remove" title="Remove Facility"></i>
+                <a href="#myModal" data-toggle="modal" class="icon-hand-up"><i title="Edit Facility"></i></a>
+                </td>
+            </tr>
+        <% }); %>

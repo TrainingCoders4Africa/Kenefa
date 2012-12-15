@@ -1,0 +1,50 @@
+/* Add Stylus stylesheets here, alll files ending in .styl will be compiled!
+ * For example: @import "main.styl";
+ *
+ * Note: All stylesheets are relative to `assets/css`.
+ *
+ */ 
+
+
+
+/* Put development-only CSS below this line. */
+
+body > .navbar .brand {
+    color: #ffffff;
+    float: right;
+    font-weight: bold;
+    margin-left: 20px;
+    padding-left: 0;
+    padding-right: 0;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.125);
+    transition-delay: 0s;
+    transition-duration: 0.2s;
+    transition-property: all;
+    transition-timing-function: linear;
+}
+
+.mini-layout{
+    background-color: rgb(220, 234, 244);
+}
+.navbar{
+    margin-bottom: 0px;
+}
+
+#content,#droite{
+    min-height: 400px
+}
+#content{
+    background-color: #F7F7F9;
+    margin-left: 0px;
+}
+#droite{
+    background-color: #BBD8E9;
+    width: 320px
+}
+
+footer{
+        background-color: #F5F5F5;
+    border-top: 1px solid #E5E5E5;
+    margin-top: 70px;
+    padding: 70px 0;
+}
