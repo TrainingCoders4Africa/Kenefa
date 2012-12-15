@@ -8,6 +8,6 @@ import c4a.kenefa.api.model.Facility;
 public interface FacilityDao<E> {
 	public List<Facility> getFacilities(int offset, int limit);
 	public DAO<Facility> getDao();
-	public Facility updateFacility(Integer id, Facility facility);
-	public void removeFacility(Integer id);
+	public Facility updateFacility(String id, Facility facility);
+	public void removeFacility(String id);
 }

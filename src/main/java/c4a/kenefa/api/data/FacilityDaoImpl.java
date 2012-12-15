@@ -27,7 +27,7 @@ public class FacilityDaoImpl<E>  implements FacilityDao<E> {
 		return dao;
 	}
 	
-	public Facility updateFacility(Integer id, Facility facility){
+	public Facility updateFacility(String id, Facility facility){
 		EntityManager em = dao.getEm();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -43,7 +43,7 @@ public class FacilityDaoImpl<E>  implements FacilityDao<E> {
 	}
 
 	@Override
-	public void removeFacility(Integer id) {
+	public void removeFacility(String id) {
 		EntityManager em = dao.getEm();
 		EntityTransaction tx = em.getTransaction();
 				tx.begin();

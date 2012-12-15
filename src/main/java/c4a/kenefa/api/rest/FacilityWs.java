@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -16,16 +17,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-
 
 import c4a.kenefa.api.data.FacilityDao;
 import c4a.kenefa.api.model.Facility;
 import c4a.kenefa.api.model.embedded.Capacity;
 import c4a.kenefa.api.model.embedded.Rating;
 import c4a.kenefa.api.model.embedded.Service;
-import c4a.kenefa.cors.CorsFilter;
 
 @Path("/facilities")
 public class FacilityWs {
@@ -36,12 +33,14 @@ public class FacilityWs {
 	public FacilityWs() {
 	}
 
+	
+	
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getFacilities(@QueryParam("fields") String fields,
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<Facility> getFacilities(@QueryParam("fields") String fields,
 			@DefaultValue("0") @QueryParam("offset") int offset,
 			@DefaultValue("90") @QueryParam("limit") int limit) {
-		return CorsFilter.getInstance().customResponse(fdao.getFacilities(offset, limit), "GET");
+		 return fdao.getFacilities(offset, limit);
 	}
 	
 	@POST
@@ -51,50 +50,53 @@ public class FacilityWs {
 		fdao.getDao().persist(facility);
 		return facility;
 	}
+
 	
 	@PUT
 	@Path("/{id}")
-	@Produces({ MediaType.APPLICATION_JSON })
-	@Consumes({ MediaType.APPLICATION_JSON })
-	public Facility updateFacility(@PathParam("id") Integer id,Facility facility, @Context UriInfo uriInfo) {
-		for(String uri : uriInfo.getMatchedURIs()) {
-			System.out.println(uri);
-			}
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Facility updateFacility(@PathParam("id") String id,Facility facility) {
 		return fdao.updateFacility(id, facility);
 	} 
 	
 	@DELETE
 	@Path("/{id}")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public void deleteFacility(@PathParam("id") Integer id) {
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public void deleteFacility(@PathParam("id") String id) {
 		fdao.removeFacility(id);
 	} 
  
 	@GET
 	@Path("/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getFacilityById(@PathParam("id") Integer id) {
-		return CorsFilter.getInstance().customResponse(fdao.getDao().find(Facility.class, id), "GET");
+	public Facility getFacilityById(@PathParam("id") String id/*, @Context HttpHeaders headers*/) {
+		/*headers.getRequestHeaders().add("Access-Control-Allow-Origin", "*");
+		for (String header : headers.getRequestHeaders().keySet())
+		{
+		System.out.println("This header was set: " + header);
+		}*/
+		return fdao.getDao().find(Facility.class, id);
 	}
 	
 	@Path("/{id : .+}/capacity")
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Capacity getCapacityFacility(@PathParam("id") Integer id) {
+	@Produces({ MediaType.APPLICATION_XML ,MediaType.APPLICATION_JSON })
+	public Capacity getCapacityFacility(@PathParam("id") String id) {
 		return fdao.getDao().find(Facility.class, id).getCapacity();
 	}
 	
 	@Path("/{id : .+}/service")
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Service getServiceFacility(@PathParam("id") Integer id) {
+	@Produces({ MediaType.APPLICATION_XML ,MediaType.APPLICATION_JSON })
+	public Service getServiceFacility(@PathParam("id") String id) {
 		return fdao.getDao().find(Facility.class, id).getService();
 	}
 	
 	@Path("/{id : .+}/rating")
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Rating getRatingFacility(@PathParam("id") Integer id) {
+	@Produces({ MediaType.APPLICATION_XML ,MediaType.APPLICATION_JSON })
+	public Rating getRatingFacility(@PathParam("id") String id) {
 		return fdao.getDao().find(Facility.class, id).getRating();
 	}
 

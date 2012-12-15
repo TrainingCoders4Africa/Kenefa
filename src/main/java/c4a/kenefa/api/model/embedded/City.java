@@ -21,7 +21,7 @@ public class City {
 	}
 
 	// getters and setters
-	
+	@Column(name="city")
 	public String getName() {
 		return name;
 	}
@@ -32,7 +32,7 @@ public class City {
 
 	@Override
 	public String toString() {
-		return "Country [ name=" + name + "]";
+		return "City [ name=" + name + "]";
 	}
 
 }

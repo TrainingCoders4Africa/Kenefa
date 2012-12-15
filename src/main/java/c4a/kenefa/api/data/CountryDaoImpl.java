@@ -31,7 +31,7 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 	}
 
 	@Override
-	public Country getCountryById(Integer id) {
+	public Country getCountryById(String id) {
 		Country country= dao.getEm().find(Country.class, id);
 		return country;
 	}

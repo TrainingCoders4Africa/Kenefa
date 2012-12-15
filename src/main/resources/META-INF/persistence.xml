@@ -38,11 +38,11 @@
         <properties>
     <property name="jboss.as.jpa.providerModule" value="org.datanucleus" />
           <!--   <property name="jboss.as.jpa.adapterModule" value="org.jboss.as.jpa.hibernate:4"/> -->
-            <property name="datanucleus.ConnectionURL" value="mongodb:localhost/kenefa"/>
+            <property name="datanucleus.ConnectionURL" value="mongodb:127.11.186.129:27017/kenefa"/>
             <property name="datanucleus.storeManagerType" value="mongodb" />
-            <property name="datanucleus.autoCreateSchema" value="true" />  
-            <!--property name="datanucleus.ConnectionUserName" value="PENSHIFT_MONGODB_DB_USERNAME"/>
-            <property name="datanucleus.ConnectionPassword" value="OPENSHIFT_MONGODB_DB_PASSWORD"/-->
+            <property name="datanucleus.autoCreateSchema" value="false" />  
+            <property name="datanucleus.ConnectionUserName" value="admin"/>
+            <property name="datanucleus.ConnectionPassword" value="fkEgvHfUB7MV"/>
         </properties>  
           <!--   <property name="hibernate.search.Rules.directory_provider" value="ram"/>
             <property name="hibernate.ogm.datastore.provider"

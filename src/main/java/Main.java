@@ -2,6 +2,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import c4a.kenefa.api.data.DAOJeeImpl;
+import c4a.kenefa.api.data.FacilityDao;
 import c4a.kenefa.api.data.FacilityDaoImpl;
 import c4a.kenefa.api.model.Facility;
 

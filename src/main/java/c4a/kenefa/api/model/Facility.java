@@ -26,9 +26,9 @@ import java.io.Serializable;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Facility implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "_id")
-	private Integer id;
+	private String id=null;
 	private String name = null;
 	private String address = null;
 	private String phone = null;
@@ -140,11 +140,11 @@ public class Facility implements Serializable{
 	}
 
 	// getters and setters
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

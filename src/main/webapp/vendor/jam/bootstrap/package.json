@@ -1,7 +1,0 @@
-{
-    "name": "bootstrap",
-    "version": "2.2.1",
-    "description": "A utility-belt library for JavaScript that provides a lot of the functional programming support that you would expect in Prototype.js (or Ruby), but without extending any of the built-in JavaScript objects.",
-    "homepage": "http://twitter.github.com/bootstrap/javascript.html#transitions",
-    "main": "bootstrap.js"
-}

@@ -8,5 +8,5 @@ import c4a.kenefa.api.model.Facility;
 public interface CountryDao<E> {
 	public List<Country> getCountries();
 	public List<Facility> getFacilitiesByCountry(String country);
-	public Country getCountryById(Integer id);
+	public Country getCountryById(String id);
 }

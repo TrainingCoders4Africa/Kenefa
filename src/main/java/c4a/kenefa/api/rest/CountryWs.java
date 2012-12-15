@@ -14,8 +14,6 @@ import c4a.kenefa.api.data.CountryDao;
 import c4a.kenefa.api.model.Country;
 import c4a.kenefa.api.model.Facility;
 import c4a.kenefa.api.model.embedded.City;
-import c4a.kenefa.cors.CorsFilter;
-import javax.ws.rs.core.Response;
 
 @Path("/countries")
 public class CountryWs {
@@ -24,30 +22,30 @@ public class CountryWs {
 	CountryDao<Country> cdao;
 	
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getCountries() {
-		return CorsFilter.getInstance().customResponse(cdao.getCountries(), "GET");
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public List<Country> getCountries() {
+		return cdao.getCountries();
 	}
 
 	@GET
 	@Path("/{id}")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getCountryById(@PathParam("id") Integer id) {
-		return CorsFilter.getInstance().customResponse(cdao.getCountryById(id), "GET");
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Country getCountryById(@PathParam("id") String id) {
+		return cdao.getCountryById(id);
 	}
 
 	@Path("/{id : .+}/cities")
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getCitiesCountry(@PathParam("id") Integer id) {
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Collection<City> getCitiesCountry(@PathParam("id") String id) {
 		Country country= cdao.getCountryById(id);
-				return CorsFilter.getInstance().customResponse(country.getCities(), "GET");
+				return country.getCities();
 	}
 	
 
 	@Path("/{name : .+}/facilities")
 	@GET
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Facility> getAllFacilitiesByCountry(@PathParam("name") String country) {
 		return cdao.getFacilitiesByCountry(country);
 	}
