@@ -1,0 +1,16 @@
+
+com/mongodb/util/management
+com
+com/mongodb/tools
+com/mongodb/io
+com/mongodb/util/management/jmx
+org/bson/util/annotations
+com/mongodb/gridfs
+org
+org/bson/types
+META-INF
+com/mongodb/util
+org/bson/util
+org/bson/io
+org/bson
+com/mongodb

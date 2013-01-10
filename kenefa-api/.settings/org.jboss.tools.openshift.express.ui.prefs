@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+org.jboss.tools.openshift.ApplicationId=94524f53643c4eff853ee5ce749f5675
+org.jboss.tools.openshift.ApplicationName=rambo
+org.jboss.tools.openshift.Connection=https\://zidovivi@
+org.jboss.tools.openshift.DeployFolder=deployments
+org.jboss.tools.openshift.Domain=porto
+org.jboss.tools.openshift.RemoteName=openshift
