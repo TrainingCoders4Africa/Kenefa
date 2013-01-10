@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Maps JavaScript API v3 Example: Complex Icons</title>
+    
+    <div id="map" style="width: 550px; height: 450px"></div>
+
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    
+    <script>
+      function initialize() {
+        var mapOptions = {
+          zoom: 4,
+          // Coord Centrées sur Le continent Africain : 3.8642546157214084, 21.4453125
+          // Coord Centrées sur Dakar : 14.497401,-14.452362
+          center: new google.maps.LatLng(3.8642546157214084, 21.4453125),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        
+        var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+        setMarkers(map, countries);
+      }
+
+      /**
+       * Data for the markers consisting of a name, a LatLng and a zIndex for
+       * the order in which these markers should display on top of each
+       * other.
+       */
+      var countries = [
+          ['Mali' 17.570692, -3.996166,1],
+          ['Côte dIvoire' 7.539989, -5.54708,2],
+          ['Ghana' 7.946527, -1.023194,3],
+          ['Togo' 8.619543, 0.824782,4],
+          ['Bénin' 9.30769, 2.315834,5],        
+          ['Niger'17.607789, 8.081666,6],
+          ['Burkina Faso' 12.238333, -1.561593,7],
+          ['Mauritanie (Nouakchott)' 18.0840609, -15.97842,8],
+          ['Guinnée-Bissau' 11.803749, -15.180413,9],
+          ['Gambie' 13.443182, -15.310139,10],
+          ['Sierra Leone' 8.460555, -11.779889,11],
+          ['Libéria' 6.428055, -9.429499,12],
+          ['Nigéria' 9.081999, 8.675277,13],
+          ['Tchad' 15.454166, 18.732207,14],
+      ];
+
+      function setMarkers(map, locations) {
+
+/*
+        var image = new google.maps.MarkerImage('sn.png',
+            new google.maps.Size(16, 11),
+            new google.maps.Point(0,0),
+            new google.maps.Point(0, 11)
+        );
+*/
+
+        /*var Shapes = {
+            coord: [1, 1, 1, 20, 18, 20, 18 , 1],
+            type: 'poly'
+        };*/
+
+        for (var i = 0; i < locations.length; i++) {
+          var country = locations[i];
+          var myLatLng = new google.maps.LatLng(country[1], country[2]);
+          var marker = new google.maps.Marker({
+              position: myLatLng,
+              map: map,
+              //shadow: shadow,
+              icon: image,
+              //shape: shape,
+              title: country[0],
+              zIndex: country[3]
+          });
+        }
+      }
+    </script>
+  </head>
+  
+  <body onload="initialize()">
+    <div id="map_canvas"></div>
+  </body>
+
+</html>
