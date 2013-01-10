@@ -1,0 +1,17 @@
+
+org/apache/geronimo/osgi
+META-INF/maven/org.apache.geronimo.specs
+javax/persistence/spi
+javax/persistence/metamodel
+META-INF/maven
+javax/persistence
+org/apache/geronimo/specs/jpa
+org
+META-INF
+org/apache/geronimo/osgi/locator
+org/apache/geronimo/specs
+javax/persistence/criteria
+org/apache
+javax
+META-INF/maven/org.apache.geronimo.specs/geronimo-jpa_2.0_spec
+org/apache/geronimo
