@@ -1,0 +1,75 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:panelGrid columns="4" cellpadding="10">
+		<img
+			src="#{request.contextPath}/admin/images/logo/#{homeBean.currentFacility.country}.gif"
+			alt="#{homeBean.currentFacility.country}" />
+		<h:inputText value="#{homeBean.currentFacility.name}"/>
+		<h:outputText value="Description" /><p:inputTextarea rows="3" cols="25"/>
+		<h:outputText value="Creation date" />
+		<p:calendar value="#{homeBean.currentFacility.birth}" pattern="dd/MM/yyyy"/>
+		<h:outputText value="Type" />
+		<p:selectOneMenu value="#{homeBean.currentFacility.type}" effect="fold"
+			editable="true">
+			<f:selectItem itemLabel="Hospital" itemValue="Hospital" />
+			<f:selectItem itemLabel="Clinic" itemValue="Clinic" />
+			<f:selectItem itemLabel="Pharmacy" itemValue="Pharmacy" />
+		</p:selectOneMenu>
+		<h:outputText value="Scope" />
+		<p:selectOneMenu value="#{homeBean.currentFacility.scope}"
+			effect="fold" editable="true">
+			<f:selectItem itemLabel="PUBLIC" itemValue="PUBLIC" />
+			<f:selectItem itemLabel="PRIVATE" itemValue="PRIVATE" />
+		</p:selectOneMenu>
+		<h:outputText value="Opening hours" />
+		<p:inputText value="#{homeBean.currentFacility.openingHours}" />
+		<h:outputText value="Website" />
+		<p:inputText value="#{homeBean.currentFacility.url}" />
+		<h:outputText value="Adress" />
+		<p:inputText value="#{homeBean.currentFacility.address}" />
+		<h:outputText value="Phone" />
+		<p:inputText value="#{homeBean.currentFacility.phone}" />
+		<h:outputText value="Country" />
+		<h:panelGroup>
+			<p:selectOneMenu value="#{homeBean.currentFacility.country}"
+				effect="fold" editable="true">
+				<f:selectItems value="#{cacheBean.mapCountries}" />
+			</p:selectOneMenu>
+			<p:inputText value="#{homeBean.currentFacility.city}" disabled="false" />
+		</h:panelGroup>
+		<h:outputText value="Latitude" />
+		<p:inputText value="#{homeBean.currentFacility.latitude}" />
+		<h:outputText value="Longitude" />
+		<p:inputText value="#{homeBean.currentFacility.longitude}" />
+	</h:panelGrid>
+	<p:tabView id="tabViewCarac">  
+	    <p:tab id="tab1" title="Capacity"> 
+	 		 <h:panelGrid columns="2" cellpadding="10">
+	 		 	<h:outputText value="Number of doctors" />
+	 		 	<p:spinner value="#{homeBean.currentFacility.capacity.doctor}" min="1" max="100"/>
+	 		 	<h:outputText value="Number of nurse" />
+	 		 	<p:spinner value="#{homeBean.currentFacility.capacity.nurse}" min="1" max="500"/>
+	 		 	<h:outputText value="Number of beds" />
+	 		 	<p:spinner value="#{homeBean.currentFacility.capacity.bed}" min="1" />
+	 		 </h:panelGrid>
+	 	</p:tab>
+	 	<p:tab id="tab2" title="Service"> 
+	 		 <h:panelGrid columns="4" cellpadding="10">
+	 		 	<h:outputText value="Pediatric" />
+	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.pediatric}" onLabel="YES" offLabel="NO"/>
+	 		 	<h:outputText value="Radiology" />
+	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.radiology}" onLabel="YES" offLabel="NO"/>
+	 		 	<h:outputText value="Pharmacy" />
+	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.pharmacy}" onLabel="YES" offLabel="NO"/>
+	 		 	<h:outputText value="Emergency Care" />
+	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.emergencyCare}" onLabel="YES" offLabel="NO"/>
+	 		 	<h:outputText value="Inpatient" />
+	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.inpatient}" onLabel="YES" offLabel="NO"/>
+	 		 </h:panelGrid>
+	 	</p:tab>
+	 </p:tabView>
+</ui:composition>

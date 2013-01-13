@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+  
+  
+    <p:dataTable var="facility" value="#{homeBean.facilities}" scrollable="true" scrollHeight="450" resizableColumns="true" id="facility" editable="true">  
+  
+        <p:ajax event="rowEdit" listener="#{homeBean.onEdit}" update=":formFacility:messages" />  
+        <p:ajax event="rowEditCancel" listener="#{homeBean.onCancel}" update=":formFacility:messages" />  
+  
+        <p:column headerText="Name" style="width:125px">  
+            <p:cellEditor>  
+                <f:facet name="output">  
+                    <h:outputText value="#{facility.name}" />  
+                </f:facet>  
+                <f:facet name="input">  
+                    <p:inputText value="#{facility.name}" style="width:100%"/>  
+                </f:facet>  
+            </p:cellEditor>  
+        </p:column>  
+  
+        <p:column headerText="Country" style="width:125px">  
+            <p:cellEditor>  
+                <f:facet name="output">  
+                    <h:outputText value="#{facility.country}" />  
+                </f:facet>  
+                <f:facet name="input">  
+                    <h:selectOneMenu value="#{facility.country}" >  
+                        <f:selectItems value="#{cacheBean.mapCountries}"  
+                            var="country"   
+                            itemLabel="#{country}"  
+                            itemValue="#{country}" />  
+                    </h:selectOneMenu>  
+                </f:facet>  
+            </p:cellEditor>  
+        </p:column>  
+  
+        <p:column headerText="Options" style="width:50px">  
+            <p:rowEditor />  
+        </p:column>  
+  
+    </p:dataTable>  
+  
+</ui:composition>
