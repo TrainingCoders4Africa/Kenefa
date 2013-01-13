@@ -22,7 +22,7 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 	
 	@SuppressWarnings("unchecked")
 	public List<Country> getCountries(){
-		String qstr = "SELECT c FROM " + Country.class.getName()+" c";
+		String qstr = "SELECT c FROM " + Country.class.getName()+" c order by c.name";
 		EntityManager em = dao.getEm();
 		Query query = em.createQuery(qstr);
 		List<Country> l= query.getResultList();
@@ -135,10 +135,11 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 		return nb;
 		*/
 	}
-	public List<Facility> getFacilitiesByCountryAndCity(String country, String city){
+	@Override
+	public List<Facility> getFacilitiesByCountryAndCity(String country, Integer idCity){
 		String qstr = "SELECT f FROM " + Facility.class.getName()
-				+ " f where upper(f.country) = '" + country.toUpperCase() + "' and upper(f.city) = '"
-				+ city.toUpperCase() + "'";
+				+ " f where upper(f.country) = '" + country.toUpperCase() + "' and f.city = "
+				+ idCity;
 		Query query = dao.getEm().createQuery(qstr);
 		return query.getResultList();
 	}

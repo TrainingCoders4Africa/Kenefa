@@ -14,5 +14,5 @@ public interface CountryDao<E> extends  Serializable{
 	public CountryFull getCountryFullById(String id);
 	public Country getCountryById(String id);
 	public CityFull getCityFullByCountryAndName(String countryId, String city);
-	public List<Facility> getFacilitiesByCountryAndCity(String country, String name);
+	public List<Facility> getFacilitiesByCountryAndCity(String country, Integer idCity);
 }

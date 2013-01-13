@@ -99,16 +99,16 @@ public class FacilityWs {
 	public Response getFacilityByCountryAndCity(
 			@QueryParam("name") String name,
 			@QueryParam("country") String country,
-			@QueryParam("city") String city) {
+			@QueryParam("city") Integer city) {
 		String jpql;
 		if (name == null && country != null && city != null)
 			jpql = "SELECT f FROM " + Facility.class.getName()
-			+ " f where upper(f.country) = '" + country.toUpperCase() + "' and upper(f.city) = '"
-			+ city.toUpperCase() + "'";
+			+ " f where upper(f.country) = '" + country.toUpperCase() + "' and f.city = "
+			+ city;
 		else if (name != null && country != null && city != null)
 			jpql = "SELECT f FROM " + Facility.class.getName()
-			+ " f where upper(f.country) = '" + country.toUpperCase() + "' and upper(f.city) = '"
-			+ city.toUpperCase() + "'" + " and upper(f.name) like '" + name.toUpperCase() +"%'";
+			+ " f where upper(f.country) = '" + country.toUpperCase() + "' and f.city = "
+			+ city  + " and upper(f.name) like '" + name.toUpperCase() +"%'";
 		else return null;
 		GenericEntity<List<Facility>> entity = new GenericEntity<List<Facility>>(fdao.getDao().getResultList(jpql,null)){};
 		return CorsFilter.getInstance().customResponse(entity, "GET");

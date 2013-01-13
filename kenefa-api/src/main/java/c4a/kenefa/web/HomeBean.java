@@ -122,8 +122,8 @@ public class HomeBean implements Serializable {
             }
             if(data instanceof City){
             	 City city = (City) data;
-            	 String country = ((Country) ((MindmapNode) node.getParent()).getData()).getName();
-            	 List<Facility> list = cdao.getFacilitiesByCountryAndCity(country, city.getName());
+            	 String country = ((Country) ((MindmapNode) node.getParent()).getData()).getId();
+            	 List<Facility> list = cdao.getFacilitiesByCountryAndCity(country, city.getId());
             	 for(Facility f: list){
             		 node.addNode(new DefaultMindmapNode(f.getName(), f , "FFCC00",true));
             	 }
@@ -178,7 +178,7 @@ public class HomeBean implements Serializable {
 	    		TreeNode doc1 = new DefaultTreeNode("country",new Doc(country.getName()), treeRoot);
 	    		for(City city:country.getCities()){
 	    			TreeNode doc2 = new DefaultTreeNode("city",new Doc(city.getName()), doc1);
-	    			List<Facility> list = cdao.getFacilitiesByCountryAndCity(country.getName(), city.getName());
+	    			List<Facility> list = cdao.getFacilitiesByCountryAndCity(country.getId(), city.getId());
 	            	 for(Facility f: list){
 	            		 LOGGER.debug("FACILITY : " +country.getName()+ " " + f.getName());
 	            		 TreeNode doc3 = new DefaultTreeNode("facility", f, doc2); 
