@@ -38,7 +38,8 @@ public class Facility implements Serializable{
 	private String address = null;
 	private String phone = null;
 	private String scope = null;
-	private String city = null;
+	private String cityName = null;
+	private Integer city = null;
 	private String country = null;
 	private String url;
 	private String openingHours = null;
@@ -71,7 +72,7 @@ public class Facility implements Serializable{
 	
 
 	public Facility(String name, String address, String phone, String scope,
-			String city, String country, String url, String openingHours,
+			Integer city, String country, String url, String openingHours,
 			Double longitude, Double latitude, String type, Date birth,
 			Capacity capacity, Service service, Rating rating) {
 		super();
@@ -123,7 +124,7 @@ public class Facility implements Serializable{
 	}
 
 	public Facility(String name, String type, String scope, Date birth,
-			String address, String phone, String url, String city,
+			String address, String phone, String url, Integer city,
 			String country, Double longitude, Double latitude,
 			Capacity capacity, Service service) {
 		super();
@@ -227,11 +228,11 @@ public class Facility implements Serializable{
 		this.scope = scope;
 	}
 
-	public String getCity() {
+	public Integer getCity() {
 		return city;
 	}
 
-	public void setCity(String city) {
+	public void setCity(Integer city) {
 		this.city = city;
 	}
 
@@ -306,6 +307,14 @@ public class Facility implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String  cityName) {
+		this.cityName = cityName;
 	}
 
 }

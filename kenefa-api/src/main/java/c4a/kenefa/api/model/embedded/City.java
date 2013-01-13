@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 //@Table(name = "countries.cities")
 public class City {
-	
+	protected Integer id;
 	protected String name = null;
 	protected Double longitude = null;
 	protected Double latitude = null;
@@ -62,5 +62,13 @@ public class City {
 
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }
