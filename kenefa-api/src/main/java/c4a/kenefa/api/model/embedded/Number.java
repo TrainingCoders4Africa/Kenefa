@@ -13,6 +13,7 @@ public class Number {
 	public int polyclinics;
 	public int healthCenters;
 	public int dispensaries;
+	
 	public int getFacilitiesNumber() {
 		return facilitiesNumber=clinics + hospitals + polyclinics + healthCenters + dispensaries;
 	}

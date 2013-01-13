@@ -1,6 +1,5 @@
 package c4a.kenefa.api.data;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import c4a.kenefa.api.model.Country;
 import c4a.kenefa.api.model.CountryFull;
 import c4a.kenefa.api.model.Facility;
 import c4a.kenefa.api.model.embedded.City;
-import c4a.kenefa.api.model.embedded.Number;
 
 public class CountryDaoImpl<E> implements CountryDao<E>{
 	@Inject

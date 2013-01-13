@@ -55,9 +55,6 @@ public class FacilityWs {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Facility updateFacility(@PathParam("id") String id,Facility facility, @Context UriInfo uriInfo) {
-		for(String uri : uriInfo.getMatchedURIs()) {
-			System.out.println(uri);
-			}
 		return fdao.updateFacility(id, facility);
 	} 
 	

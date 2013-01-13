@@ -1,18 +1,21 @@
 package c4a.kenefa.api.model.embedded;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.sun.org.apache.xpath.internal.operations.Equals;
-
 @Embeddable
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+//@Table(name = "countries.cities")
 public class City {
-	private String name = null;
-
+	
+	protected String name = null;
+	protected Double longitude = null;
+	protected Double latitude = null;
+	
 	public City() {
 		super();
 	}
@@ -23,7 +26,7 @@ public class City {
 	}
 
 	// getters and setters
-	@Column(name="city")
+	@Column(name="name")
 	public String getName() {
 		return name;
 	}
@@ -43,5 +46,21 @@ public class City {
         }
         City other = (City) object;
         return this.name.equals(other.getName());                
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 }

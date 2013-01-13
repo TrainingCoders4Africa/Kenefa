@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import c4a.kenefa.api.model.embedded.Capacity;
 import c4a.kenefa.api.model.embedded.Rating;
@@ -31,6 +32,7 @@ public class Facility implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "_id")
+	@XmlTransient
 	private String id=null;
 	private String name = null;
 	private String address = null;
@@ -44,6 +46,8 @@ public class Facility implements Serializable{
 	private Double latitude = null;
 	private String type = null; // (physician, clinic, hospital, nursing home)
 	private Date birth = null;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	private Country country;
 
 	@Embedded
 	@XmlElement

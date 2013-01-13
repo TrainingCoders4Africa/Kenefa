@@ -1,9 +1,5 @@
 package c4a.kenefa.cors;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 

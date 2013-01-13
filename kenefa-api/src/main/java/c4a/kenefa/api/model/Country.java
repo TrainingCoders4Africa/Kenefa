@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -20,18 +21,17 @@ import c4a.kenefa.api.model.embedded.City;
 public class Country {
 	@Id	
 	@Column(name = "_id")
-	private String id;
-	private String name = null;
-	private String description=null;
-
-	/*
-	 * @XmlElementWrapper(name="cities")
-	 * 
-	 * @XmlElement(name="city")
-	 */
-
-	private Collection<City> cities = new ArrayList<City>();
-
+	protected String id;
+	protected String name = null;
+	protected String description=null;
+	//@XmlTransient
+	//@OneToMany(fetch = FetchType.EAGER)
+	//private Collection<Facility> facilities;
+	@Embedded
+	protected Collection<City> cities = new ArrayList<City>();
+	protected Double longitude = null;
+	protected Double latitude = null;
+	
 	public Country() {
 		super();
 	}
@@ -41,6 +41,7 @@ public class Country {
 		this.name = name;
 	}
 
+	
 	// getters and setters
 	public String getId() {
 		return id;
@@ -49,6 +50,17 @@ public class Country {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	
+	
+//	public Collection<Facility> getFacilities() {
+//		return facilities;
+//	}
+//
+//	public void setFacilities(Collection<Facility> facilities) {
+//		this.facilities = facilities;
+//	}
+
 
 	public String getDescription() {
 		return this.description;
@@ -78,6 +90,22 @@ public class Country {
 	public String toString() {
 		return "Country [" + (name != null ? "name=" + name + ", " : "")
 				+ (cities != null ? "cities=" + cities : "") + "]";
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 
 }

@@ -13,6 +13,8 @@
 		</license>
 	</licenses>
 	<properties>
+		<applicationServer7Version>7.1.1.Final</applicationServer7Version>
+		<jbossTargetDir>${project.build.directory}/cargo/installs/jboss-as-dist-${applicationServer7Version}/jboss-as-${applicationServer7Version}</jbossTargetDir>
 		<!-- Explicitly declaring the source encoding eliminates the following 
 			message: -->
 		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
@@ -38,9 +40,38 @@
 		<!-- maven-compiler-plugin -->
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<maven.compiler.source>1.6</maven.compiler.source>
+		
+		 <!-- Lib de test -->
+        <junit.version>4.10</junit.version>
+
+        <!-- Lib de log -->
+        <log4j.version>1.2.17</log4j.version>
+        
 	</properties>
 
 	<repositories>
+		<!-- <repository>
+          <id>jboss-public-repository-group</id>
+          <name>JBoss Public Maven Repository Group</name>
+          <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </repository> -->
+		
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+
 		<repository>
 			<id>DN_M2_Repo</id>
 			<name>DataNucleus Repository</name>
@@ -63,10 +94,65 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.primefaces</groupId>
+				<artifactId>primefaces</artifactId>
+				<version>3.5-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.primefaces</groupId>
+				<artifactId>primefaces-mobile</artifactId>
+				<version>0.9.3</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.datanucleus</groupId>
+			<artifactId>datanucleus-api-rest</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+            
+		<!-- Junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+		<!-- <dependency>
+		    <groupId>org.omnifaces</groupId>
+		    <artifactId>omnifaces</artifactId>
+		    <version>1.3</version>
+		</dependency>
+		<dependency>
+		   <groupId>com.ocpsoft</groupId>
+		   <artifactId>prettyfaces-jsf2</artifactId>
+		   <version>3.3.3</version>
+		</dependency> -->		
+		<!-- Import the JSF API, we use provided scope as the API is included 
+            in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces-mobile</artifactId>
+			<scope>provided</scope>
+		</dependency> -->
 		<!--dependency> <groupId>org.jboss.spec</groupId> <artifactId>jboss-javaee-6.0</artifactId> 
 			<version>1.0.0.Final</version> <type>pom</type> <scope>provided</scope> </dependency -->
 
@@ -96,16 +182,7 @@
 			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency> <groupId>org.jboss.resteasy</groupId> <artifactId>resteasy-jaxrs</artifactId> 
-			<scope>provided</scope> </dependency> <dependency> <groupId>org.jboss.resteasy</groupId> 
-			<artifactId>resteasy-jaxb-provider</artifactId> <scope>provided</scope> </dependency> -->
-		<!--dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
-			<version>[1.2, 1.3)</version> </dependency -->
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-war-plugin</artifactId>
-			<version>2.1.1</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-enhancer</artifactId>
@@ -115,7 +192,7 @@
 		<dependency>
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-core</artifactId>
-			<version>3.1.3</version>
+			<version>[2.9, )</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -133,7 +210,7 @@
 		<dependency>
 			<groupId>javax.jdo</groupId>
 			<artifactId>jdo-api</artifactId>
-			<version>[3.0, )</version>
+			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -142,20 +219,58 @@
 			<version>1.1</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Import the Servlet API, we use provided scope as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+	
 	</dependencies>
 
-	<!-- <build> <finalName>${project.artifactId}</finalName> <sourceDirectory>src/main/java</sourceDirectory> 
-		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory> <plugins> 
-		<plugin> <artifactId>maven-compiler-plugin</artifactId> <version>${version.compiler.plugin}</version> 
-		<configuration> <source>${maven.compiler.source}</source> <target>${maven.compiler.target}</target> 
-		</configuration> </plugin> <plugin> <groupId>org.datanucleus</groupId> <artifactId>maven-datanucleus-plugin</artifactId> 
-		<version>3.1.0-release</version> <configuration> <fork>false</fork> <log4jConfiguration>${basedir}/log4j.properties</log4jConfiguration> 
-		<verbose>true</verbose> <api>JPA</api> <persistenceUnitName>kenefa</persistenceUnitName> 
-		</configuration> <executions> <execution> <phase>compile</phase> <goals> 
-		<goal>enhance</goal> </goals> </execution> </executions> </plugin> <plugin> 
-		<groupId>org.jboss.as.plugins</groupId> <artifactId>jboss-as-maven-plugin</artifactId> 
-		<version>${version.org.jboss.as.plugins.maven.plugin}</version> </plugin> 
-		</plugins> </build> -->
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${version.compiler.plugin}</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.datanucleus</groupId>
+				<artifactId>maven-datanucleus-plugin</artifactId>
+				<version>3.1.0-release</version>
+				<configuration>
+					<fork>false</fork>
+					<log4jConfiguration>${basedir}/log4j.properties</log4jConfiguration>
+					<verbose>true</verbose>
+					<api>JPA</api>
+					<persistenceUnitName>kenefa-api</persistenceUnitName>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>enhance</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- JBoss AS plugin to deploy war -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>${version.org.jboss.as.plugins.maven.plugin}</version>
+			</plugin>
+
+		</plugins>
+	</build>
 
 	<profiles>
 
@@ -164,27 +279,6 @@
 			<build>
 				<finalName>${project.artifactId}</finalName>
 				<plugins>
-					<plugin>
-						<groupId>org.datanucleus</groupId>
-						<artifactId>maven-datanucleus-plugin</artifactId>
-						<version>3.1.1</version>
-						<configuration>
-							<!-- <fork>false</fork> -->
-							<log4jConfiguration>${basedir}/log4j.properties</log4jConfiguration>
-							<verbose>true</verbose>
-							<api>JPA</api>
-							<persistenceUnitName>kenefa</persistenceUnitName>
-						</configuration>
-						<executions>
-							<execution>
-								<phase>process-classes</phase>
-								<goals>
-									<goal>enhance</goal>
-									<!-- <goal>schema-create</goal> -->
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 					<plugin>
 						<artifactId>maven-war-plugin</artifactId>
 						<version>2.1.1</version>
@@ -206,6 +300,8 @@
 						<artifactId>maven-war-plugin</artifactId>
 						<version>2.1.1</version>
 						<configuration>
+							<!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+							<failOnMissingWebXml>false</failOnMissingWebXml>
 							<outputDirectory>C:\jboss-as-7.1.1.Final\standalone\deployments</outputDirectory>
 							<warName>${project.artifactId}</warName>
 						</configuration>
@@ -244,7 +340,7 @@
 								<artifactInstaller>
 									<groupId>org.jboss.as</groupId>
 									<artifactId>jboss-as-dist</artifactId>
-									<version>7.1.1.Final</version>
+									<version>${applicationServer7Version}</version>
 								</artifactInstaller>
 							</container>
 						</configuration>
