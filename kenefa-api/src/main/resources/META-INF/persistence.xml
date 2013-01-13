@@ -28,7 +28,8 @@
         http://java.sun.com/xml/ns/persistence
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
-    <persistence-unit name="kenefa-api">
+    <persistence-unit name="kenefa">
+       <!-- <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider> -->
        <provider>org.datanucleus.api.jpa.PersistenceProviderImpl</provider>
         <class>c4a.kenefa.api.model.Facility</class>
         <class>c4a.kenefa.api.model.Country</class>
@@ -36,12 +37,22 @@
         <class>c4a.kenefa.api.model.embedded.City</class>
         <properties>
     <property name="jboss.as.jpa.providerModule" value="org.datanucleus" />
-            <property name="datanucleus.ConnectionURL" value="mongodb:localhost/kenefa-api"/>
+          <!--   <property name="jboss.as.jpa.adapterModule" value="org.jboss.as.jpa.hibernate:4"/> -->
+            <property name="datanucleus.ConnectionURL" value="mongodb:127.11.186.129:27017/kenefa"/>
             <property name="datanucleus.storeManagerType" value="mongodb" />
-            <property name="datanucleus.autoCreateSchema" value="true" />  
-            <!-- <property name="datanucleus.ConnectionUserName" value="admin"/>
-            <property name="datanucleus.ConnectionPassword" value="fkEgvHfUB7MV"/> -->
+            <property name="datanucleus.autoCreateSchema" value="false" />  
+            <property name="datanucleus.ConnectionUserName" value="admin"/>
+            <property name="datanucleus.ConnectionPassword" value="fkEgvHfUB7MV"/>
         </properties>  
+          <!--   <property name="hibernate.search.Rules.directory_provider" value="ram"/>
+            <property name="hibernate.ogm.datastore.provider"
+                      value="org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider"/>
+            <property name="hibernate.ogm.mongodb.database" value="OPENSHIFT_APP_NAME"/>
+            <property name="hibernate.ogm.mongodb.host" value="OPENSHIFT_MONGODB_DB_HOST"/>
+            <property name="hibernate.ogm.mongodb.port" value="OPENSHIFT_MONGODB_DB_PORT"/>
+            <property name="hibernate.ogm.mongodb.username" value="OPENSHIFT_MONGODB_DB_USERNAME"/>
+            <property name="hibernate.ogm.mongodb.password" value="OPENSHIFT_MONGODB_DB_PASSWORD"/> -->
+ 
     </persistence-unit>
 
 </persistence>

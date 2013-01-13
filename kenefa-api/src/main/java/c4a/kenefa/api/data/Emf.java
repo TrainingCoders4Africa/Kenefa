@@ -13,7 +13,7 @@ private EntityManagerFactory  emf;
 	return emfactory;
 }
 	private Emf() {
-		emf=Persistence.createEntityManagerFactory("kenefa-api");
+		emf=Persistence.createEntityManagerFactory("kenefa");
 	}
 
 }
