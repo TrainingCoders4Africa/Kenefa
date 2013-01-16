@@ -6,8 +6,8 @@
       		<p:scrollPanel style="width:99%;height:560px">
     					<h:form id="formTree">   
                             <p:contextMenu for="docTree">  
-                                <p:menuitem value="View" update=":formFacility:panelKenefa" actionListener="#{homeBean.displaySelectedFacility}" icon="ui-icon-search" />  
-                                <p:menuitem value="Delete" update=":formFacility:panelKenefa" actionListener="#{homeBean.deleteFacility}" icon="ui-icon-close"/>  
+                                <p:menuitem value="View" update=":formFacility" actionListener="#{homeBean.displaySelectedFacility}" icon="ui-icon-search" />  
+                                <p:menuitem value="Delete" update=":formFacility" actionListener="#{homeBean.deleteFacility}" icon="ui-icon-close"/>  
                             </p:contextMenu>         
                            <p:tree id="docTree" value="#{homeBean.treeRoot}" var="doc"
                                 selectionMode="single"  

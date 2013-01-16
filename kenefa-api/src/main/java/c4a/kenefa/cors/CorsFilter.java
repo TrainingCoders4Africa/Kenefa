@@ -44,7 +44,7 @@ public class CorsFilter {
 		ResponseBuilder builder = Response.ok().entity(entity);
 		builder.header(CorsHeaderConstants.HEADER_AC_ALLOW_METHODS, method)
 				.header(CorsHeaderConstants.HEADER_ORIGIN, "*")
-				.header(CorsHeaderConstants.HEADER_AC_ALLOW_CREDENTIALS, "false")
+				.header(CorsHeaderConstants.HEADER_AC_ALLOW_CREDENTIALS, "true")
 				.header(CorsHeaderConstants.HEADER_AC_ALLOW_ORIGIN, "*")
 				.build();
 		//Calendar.getInstance().set(2013, 1, 31, 17, 0); //31-Jan-2013 à 17h00

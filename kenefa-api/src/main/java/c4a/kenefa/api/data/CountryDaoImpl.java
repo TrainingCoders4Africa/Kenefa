@@ -1,6 +1,7 @@
 package c4a.kenefa.api.data;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
+import org.apache.log4j.Logger;
 
 import c4a.kenefa.api.model.CityFull;
 import c4a.kenefa.api.model.Country;
@@ -18,7 +21,7 @@ import c4a.kenefa.api.model.embedded.City;
 public class CountryDaoImpl<E> implements CountryDao<E>{
 	@Inject
 	private DAO<Country> dao;
-	
+	private static final Logger LOGGER = Logger.getLogger(CountryDao.class);
 	
 	@SuppressWarnings("unchecked")
 	public List<Country> getCountries(){
@@ -36,9 +39,18 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 		return query.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Facility> getFacilitiesByCountryAndCityName(String country, String cityName){
+		String qstr = "SELECT f FROM " + Facility.class.getName() + " f where upper(f.country) = '"+country.toUpperCase()+"' " +
+				"and upper(f.cityName) = '" + cityName.toUpperCase() +"'";
+		Query query = dao.getEm().createQuery(qstr);
+		return query.getResultList();
+	}
+	
+	@Override
 	public Country getCountryById(String id){
 		return dao.getEm().find(Country.class, id);
-		
 	}
 	
 	@Override
@@ -49,38 +61,34 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 		cf.setDescription(country.getDescription());
 		cf.setId(country.getId());
 		cf.setName(country.getName());
-		cf.setStatistics(getCountryStatistics(country.getName()));
-		cf.setTopFacilities(getCountryTopFacilities(country.getName(), 5));
+		cf.setStatistics(getCountryStatistics(id));
+		Map<String, Long> map = getCountryStatistics(id);
+		LOGGER.info("COUNTRY sTATIsTICs :" +map.size());
+		cf.setTopFacilities(getCountryTopBottomFacilities(id, "ASC", 5));
+		cf.setBottomFacilities(getCountryTopBottomFacilities(id, "DESC", 5));
 		return cf;
 	}
+	
 	@Override
 	public CityFull getCityFullByCountryAndName(String countryId, String city) {
 		Country country= dao.getEm().find(Country.class, countryId);
 		Object[] cities =country.getCities().toArray();
 		for(int i=0;i<cities.length;i++){
 			if(((City)cities[i]).getName().equals(city)){
-				System.out.println("found it");
 				break;
 			}
 			if(i==cities.length && !((City)cities[i]).getName().equals(city)){
-				System.out.println(city+" isn't within "+country.getName());
 				return null;
 			}
 		}
-		/*
-		if(!country.getCities().contains(cityTest)){
-			System.out.println(city+" isn't within "+country.getName());
-			return null;
-		}
-		*/
 		CityFull ct= new CityFull();
 		ct.setName(city);
 		ct.setStatistics(getCityStatistics(country.getName(), city));
 		ct.setTopFacilities(getCityTopFacilities(country.getName(), city, 5));
-		System.out.println("got it");
 		return ct;
 	}
-	public Map<String, Long> getCountryStatistics(String countryName){
+	
+	private Map<String, Long> getCountryStatistics(String countryName){
 		Map<String, Long> hm = new HashMap<String, Long>();
 		String qstr="SELECT f.type, COUNT(f.id) FROM "+Facility.class.getName()+
 				" f WHERE f.country='"+countryName+"' GROUP BY f.type";
@@ -90,25 +98,9 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 			hm.put((String)result[0], (Long)result[1]);
 		}
 		return hm;
-		/*
-		Number nb = new Number();//requete sql group by
-		List<Facility> facilities=getFacilitiesByCountry(countryName);
-		for(Facility f : facilities){
-			if(f.getType().equals("CLINIC"))
-				nb.clinics++;
-			if(f.getType().equals("HOSPITAL"))
-				nb.hospitals++;
-			if(f.getType().equals("HEALTH CENTER"))
-				nb.healthCenters++;
-			if(f.getType().equals("DISPENSARY"))
-				nb.dispensaries++;
-		}
-		nb.getFacilitiesNumber();
-		return nb;
-		*/
 	}
 
-	public Map<String, Long> getCityStatistics(String countryName, String city){
+	private Map<String, Long> getCityStatistics(String countryName, String city){
 		Map<String, Long> hm = new HashMap<String, Long>();
 		String qstr="SELECT f.type, COUNT(f.id) FROM "+Facility.class.getName()+
 				" f WHERE upper(f.country)='"+countryName.toUpperCase()+"' and upper(f.city)='"+
@@ -119,22 +111,9 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 			hm.put((String)result[0], (Long)result[1]);
 		}
 		return hm;
-		/*
-		List<Facility> facilities=getFacilitiesByCountryAndCity(countryName,city);
-		for(Facility f : facilities){
-			if(f.getType().equals("CLINIC"))
-				nb.clinics++;
-			if(f.getType().equals("HOSPITAL"))
-				nb.hospitals++;
-			if(f.getType().equals("HEALTH CENTER"))
-				nb.healthCenters++;
-			if(f.getType().equals("DISPENSARY"))
-				nb.dispensaries++;
-		}
-		nb.getFacilitiesNumber();
-		return nb;
-		*/
 	}
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Facility> getFacilitiesByCountryAndCity(String country, Integer idCity){
 		String qstr = "SELECT f FROM " + Facility.class.getName()
@@ -143,10 +122,32 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 		Query query = dao.getEm().createQuery(qstr);
 		return query.getResultList();
 	}
-	public Map<String, String> getCountryTopFacilities(String country, int number){
+	
+//	@SuppressWarnings("unchecked")
+//	private List<Facility> getCountryTopFacilities(String country, int number){
+//		//HashMap<String, String> topFacilities= new HashMap<String, String>();
+//		String qstr = "SELECT f FROM " + Facility.class.getName() + " f where f.country = '"+
+//		country+"' ORDER BY f.rating.overall ASC";
+//		Query query = dao.getEm().createQuery(qstr);
+//		List<Facility> fc=query.setMaxResults(number).getResultList();
+////		for(Facility f: fc){
+////			topFacilities.put(f.getName(), f.getAddress());
+////		}
+//		return fc;// topFacilities;
+//	}
+	
+	@SuppressWarnings({ "unchecked" })
+	private List<Facility> getCountryTopBottomFacilities(String country, String sens,  int number){
+		String qstr = "SELECT f FROM " + Facility.class.getName() + " f where f.country = '"+
+				country+"' ORDER BY f.rating.overall " + sens;
+				Query query = dao.getEm().createQuery(qstr);
+		return query.setMaxResults(number).getResultList();
+	}
+	
+	private Map<String, String> getCityTopFacilities(String country, String cityName, int number){
 		HashMap<String, String> topFacilities= new HashMap<String, String>();
 		String qstr = "SELECT f FROM " + Facility.class.getName() + " f where f.country = '"+
-		country+"' ORDER BY f.rating.overall ASC";
+		country+"' AND upper(f.city)= '"+cityName.toUpperCase()+"' ORDER BY f.rating.overall ASC";
 		Query query = dao.getEm().createQuery(qstr);
 		List<Facility> fc=query.setMaxResults(number).getResultList();
 		for(Facility f: fc){
@@ -154,15 +155,22 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 		}
 		return topFacilities;
 	}
-	public Map<String, String> getCityTopFacilities(String country, String city, int number){
-		HashMap<String, String> topFacilities= new HashMap<String, String>();
-		String qstr = "SELECT f FROM " + Facility.class.getName() + " f where f.country = '"+
-		country+"' AND upper(f.city)= '"+city.toUpperCase()+"' ORDER BY f.rating.overall ASC";
-		Query query = dao.getEm().createQuery(qstr);
-		List<Facility> fc=query.setMaxResults(number).getResultList();
-		for(Facility f: fc){
-			topFacilities.put(f.getId(), f.getName());
+	
+	@Override
+	public List<CountryFull> getNumberFacilitiesByCountry(int number){
+		List<CountryFull> l=new LinkedList<CountryFull>();
+		String jpql="select f.country, count(f.id) from " + Facility.class.getName() + " f group by f.country";
+		Query query = dao.getEm().createQuery(jpql);
+		@SuppressWarnings("unchecked")
+		List<Object[]> r= query.setMaxResults(number).getResultList();
+		for(Object[] obj:r){
+			CountryFull cf= new CountryFull(((Country)dao.getEm().find(Country.class, obj[0])).getName());
+			Map<String, Long> statistics=new HashMap<String, Long>();
+			statistics.put(cf.getName(), (Long)obj[1]);
+			cf.setNumberFacilies((Long)obj[1]);
+			cf.setStatistics(statistics);
+			l.add(cf);
 		}
-		return topFacilities;
+		return l;
 	}
 }

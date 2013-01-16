@@ -4,14 +4,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	<h:panelGrid columns="4" cellpadding="10">
+	<h:panelGrid columns="4" cellpadding="10" id="panelFacilit">
 		<img
 			src="#{request.contextPath}/admin/images/logo/#{homeBean.currentFacility.country}.gif"
 			alt="#{homeBean.currentFacility.country}" />
 		<h:inputText value="#{homeBean.currentFacility.name}"/>
 		<h:outputText value="Description" /><p:inputTextarea rows="3" cols="25"/>
 		<h:outputText value="Creation date" />
-		<p:calendar value="#{homeBean.currentFacility.birth}" pattern="dd/MM/yyyy"/>
+		<p:calendar value="#{homeBean.currentFacility.birth}" />
 		<h:outputText value="Type" />
 		<p:selectOneMenu value="#{homeBean.currentFacility.type}" effect="fold"
 			editable="true">
@@ -72,4 +72,5 @@
 	 		 </h:panelGrid>
 	 	</p:tab>
 	 </p:tabView>
+	 
 </ui:composition>

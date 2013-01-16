@@ -2,19 +2,18 @@ package c4a.kenefa.web;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 
 import c4a.kenefa.api.data.CountryDao;
 import c4a.kenefa.api.model.Country;
 
-@Named
+@ManagedBean
 @ApplicationScoped
 public class CacheBean {
 	private static final Logger LOGGER = Logger.getLogger(CacheBean.class);
@@ -39,7 +38,7 @@ public class CacheBean {
 		if(mapCountries==null){
 			mapCountries = new LinkedHashMap<String, String>();
 			for(Country country:this.getCountries()){
-				mapCountries.put(country.getName(), country.getName());
+				mapCountries.put(country.getName(), country.getId());
 			}
 		}
 		return mapCountries;

@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.primefaces.event.NodeSelectEvent;
@@ -29,8 +31,8 @@ import c4a.kenefa.api.model.embedded.City;
 import c4a.kenefa.api.model.embedded.Rating;
 import c4a.kenefa.api.model.embedded.Service;
 
-@Named
-@SessionScoped
+@ManagedBean
+@ViewScoped
 public class HomeBean implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger(HomeBean.class);
     private MindmapNode root;
@@ -109,7 +111,12 @@ public class HomeBean implements Serializable {
 
     public void onFacilitySelect(NodeSelectEvent event) {  
     	LOGGER.info("selected facility : " + event.getTreeNode().toString());
-    	if(event.getTreeNode().getData() instanceof Facility)this.currentFacility=(Facility) event.getTreeNode().getData();
+    	if(event.getTreeNode().getData() instanceof Facility){
+    		this.currentFacility=(Facility) event.getTreeNode().getData();
+    		if(this.currentFacility.getCapacity()==null)this.currentFacility.setCapacity(new Capacity());
+    		if(this.currentFacility.getService()==null)this.currentFacility.setService(new Service());
+    		if(this.currentFacility.getRating()==null)this.currentFacility.setRating(new Rating());
+    	}
     }
 
     public void onNodeSelect(SelectEvent event) {
@@ -175,11 +182,23 @@ public class HomeBean implements Serializable {
 		 if(treeRoot==null){
 	    	treeRoot = new DefaultTreeNode("root", null);  
 	    	for(Country country:this.getCountries()){
-	    		TreeNode doc1 = new DefaultTreeNode("country",new Doc(country.getName()), treeRoot);
+	    		//TreeNode doc1 = new DefaultTreeNode("country",new Doc(country.getName()), treeRoot);
+	    		int i=0;
+	    		TreeNode doc1=null;
 	    		for(City city:country.getCities()){
-	    			TreeNode doc2 = new DefaultTreeNode("city",new Doc(city.getName()), doc1);
+	    			//TreeNode doc2 = new DefaultTreeNode("city",new Doc(city.getName()), doc1);
 	    			List<Facility> list = cdao.getFacilitiesByCountryAndCity(country.getId(), city.getId());
+	    			int j=0;
+	    			TreeNode doc2=null;
 	            	 for(Facility f: list){
+	            		 if(i==0){
+	 	    				doc1 = new DefaultTreeNode("country",new Doc(country.getName()), treeRoot);
+	 	    				i++;
+	 	    			}
+	            		 if(j==0){
+	            			 doc2 = new DefaultTreeNode("city",new Doc(city.getName()), doc1);
+	            			 j++;
+	            		 }
 	            		 LOGGER.debug("FACILITY : " +country.getName()+ " " + f.getName());
 	            		 TreeNode doc3 = new DefaultTreeNode("facility", f, doc2); 
 	            	 }
@@ -189,12 +208,17 @@ public class HomeBean implements Serializable {
 
 	}
 	 
-	public void saveFacility(){
+	public void saveFacility(AjaxBehaviorEvent e){
+		
+	}
+	
+	public void saveFacility(ActionEvent e){
+		LOGGER.info("FACILITY : " +currentFacility.getId()+"--------" + currentFacility.getName());
 		if(currentFacility.getId()!=null)
 			fdao.updateFacility(currentFacility.getId(), currentFacility);
 		else fdao.getDao().persist(currentFacility);
-		treeRoot=null;
-		this.prepareTree();
+		//treeRoot=null;
+		//this.prepareTree();
 		LOGGER.info("Facility updated gone!!!!!!!!!");
 	}
 
