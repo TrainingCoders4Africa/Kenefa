@@ -13,11 +13,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
-
-import org.bson.types.ObjectId;
 
 import c4a.kenefa.api.data.CountryDao;
 import c4a.kenefa.api.data.FacilityDao;
@@ -58,43 +57,43 @@ public class FacilityWs {
 	@Path("/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public Facility updateFacility(@PathParam("id") String id,Facility facility, @Context UriInfo uriInfo) {
+	public Facility updateFacility(@PathParam("id") Long id,Facility facility, @Context UriInfo uriInfo) {
 		return fdao.updateFacility(id, facility);
 	} 
 	
 	@DELETE
 	@Path("/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public void deleteFacility(@PathParam("id") String id) {
+	public void deleteFacility(@PathParam("id") Long id) {
 		fdao.removeFacility(id);
 	} 
  
 	@GET
 	@Path("/{id}")
 	@Produces({ MediaType.APPLICATION_JSON})
-	public Facility getFacilityById(@PathParam("id") String id) {
-		return fdao.getDao().find(Facility.class, new ObjectId(id)); 
+	public Facility getFacilityById(@PathParam("id") Long id) {
+		return fdao.getDao().find(Facility.class, id); //TODO not supported by JPA but JDO does
 	}
 	
 	@Path("/{id : .+}/capacity")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Capacity getCapacityFacility(@PathParam("id") String id) {
-		return fdao.getDao().find(Facility.class, new ObjectId(id)).getCapacity();
+	public Capacity getCapacityFacility(@PathParam("id") Long id) {
+		return fdao.getDao().find(Facility.class, id).getCapacity();
 	}
 	
 	@Path("/{id : .+}/service")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Service getServiceFacility(@PathParam("id") String id) {
-		return fdao.getDao().find(Facility.class, new ObjectId(id)).getService();		
+	public Service getServiceFacility(@PathParam("id") Long id) {
+		return fdao.getDao().find(Facility.class, id).getService();		
 	}
 	
 	@Path("/{id : .+}/rating")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Rating getRatingFacility(@PathParam("id") String id) {
-		return fdao.getDao().find(Facility.class, new ObjectId(id)).getRating();
+	public Rating getRatingFacility(@PathParam("id") Long id) {
+		return fdao.getDao().find(Facility.class, id).getRating();
 	}
 
 	@GET
@@ -108,6 +107,6 @@ public class FacilityWs {
 			return cdao.getFacilitiesByCountryAndCity(country, city);
 		else if (cityName != null && country != null)
 			return cdao.getFacilitiesByCountryAndCityName(country, cityName);
-		else return null;
+		else throw new WebApplicationException(500); //TODO customize Response
 	}
 }

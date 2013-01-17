@@ -7,7 +7,7 @@
     					<h:form id="formTree">   
                             <p:contextMenu for="docTree">  
                                 <p:menuitem value="View" update=":formFacility" actionListener="#{homeBean.displaySelectedFacility}" icon="ui-icon-search" />  
-                                <p:menuitem value="Delete" update=":formFacility" actionListener="#{homeBean.deleteFacility}" icon="ui-icon-close"/>  
+                                <p:menuitem value="Delete" update="@form" actionListener="#{homeBean.removeFacility}" icon="ui-icon-close"/>  
                             </p:contextMenu>         
                            <p:tree id="docTree" value="#{homeBean.treeRoot}" var="doc"
                                 selectionMode="single"  

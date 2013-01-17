@@ -1,26 +1,17 @@
 package c4a.kenefa.cors;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
@@ -38,12 +29,12 @@ public class JSONPRequestFilter implements Filter {
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         if (isJSONPRequest(httpRequest)) {
-            RequestWrapper requestWrapper = new RequestWrapper(httpRequest);
-            requestWrapper.setContentType("application/json; charset=UTF-8");
-            requestWrapper.setHeader("cache-control", "no-cache");
-            requestWrapper.setHeader("accept", "application/json");
-            requestWrapper.setCharacterEncoding("UTF-8");
-           /// requestWrapper.setBody(httpRequest.getParameter("json"));
+//           RequestWrapper requestWrapper = new RequestWrapper(httpRequest);
+//            requestWrapper.setContentType("application/json; charset=UTF-8");
+//            requestWrapper.setHeader("cache-control", "no-cache");
+//            requestWrapper.setHeader("accept", "application/json");
+//            requestWrapper.setCharacterEncoding("UTF-8");
+           // requestWrapper.setBody(httpRequest.getParameter("json"));
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(httpResponse) {
 
@@ -67,7 +58,7 @@ public class JSONPRequestFilter implements Filter {
                 }
             };
 
-            chain.doFilter(requestWrapper, responseWrapper);
+            chain.doFilter(request, responseWrapper);
             response.getOutputStream().write((getCallbackParameter(httpRequest) + "(").getBytes());
             response.getOutputStream().write(baos.toByteArray());
             response.getOutputStream().write(");".getBytes());
@@ -97,7 +88,7 @@ public class JSONPRequestFilter implements Filter {
 
     public void destroy() {
     }
-
+/*
     void printRequest(HttpServletRequest request) throws IOException {
         {
             System.out.println("--------------Headers---------------");
@@ -140,7 +131,8 @@ public class JSONPRequestFilter implements Filter {
         System.out.println("Method: " + request.getMethod());
 
     }
-
+*/
+    /*
     public static class RequestWrapper extends HttpServletRequestWrapper {
         Map<String, String> headers = new HashMap<String, String>();
 
@@ -162,7 +154,7 @@ public class JSONPRequestFilter implements Filter {
 //            headers.put("content-length", Integer.toString(contentLength));
 //        }
 
-        @Override
+       @Override
         public BufferedReader getReader() throws IOException {
             reader = new BufferedReader(new InputStreamReader(bais));
             return reader;
@@ -239,4 +231,5 @@ public class JSONPRequestFilter implements Filter {
             }
         }
     }
+*/
 }

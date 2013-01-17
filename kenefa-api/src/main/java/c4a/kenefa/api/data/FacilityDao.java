@@ -9,6 +9,6 @@ import c4a.kenefa.api.model.Facility;
 public interface FacilityDao<E> extends  Serializable {
 	public List<Facility> getFacilities(int offset, int limit);
 	public DAO<Facility> getDao();
-	public Facility updateFacility(String id, Facility facility);
-	public void removeFacility(String id);
+	public Facility updateFacility(Long id, Facility facility);
+	public void removeFacility(Long id);
 }

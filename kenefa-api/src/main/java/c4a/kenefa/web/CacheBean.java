@@ -4,23 +4,23 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 
 import c4a.kenefa.api.data.CountryDao;
 import c4a.kenefa.api.model.Country;
 
-@ManagedBean
-@ApplicationScoped
+@Named
+@javax.enterprise.context.ApplicationScoped
 public class CacheBean {
 	private static final Logger LOGGER = Logger.getLogger(CacheBean.class);
 	@Inject
 	CountryDao<Country> cdao;
 	private List<Country> countries = null;
-	private LinkedHashMap<String,String> mapCountries = null;
+	private LinkedHashMap<String,Country> mapCountries = null;
+	private static CacheBean instance;
 	
 	@PostConstruct
 	public void init(){
@@ -34,13 +34,17 @@ public class CacheBean {
 		return countries;
 	}  
 	
-	public LinkedHashMap<String,String> getMapCountries(){
+	public LinkedHashMap<String,Country> getMapCountries(){
 		if(mapCountries==null){
-			mapCountries = new LinkedHashMap<String, String>();
+			mapCountries = new LinkedHashMap<String, Country>();
 			for(Country country:this.getCountries()){
-				mapCountries.put(country.getName(), country.getId());
+				mapCountries.put(country.getName(), country);
 			}
 		}
 		return mapCountries;
+	}
+
+	public static CacheBean getInstance() {
+		return instance==null?instance=new CacheBean():instance;
 	}
 }

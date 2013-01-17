@@ -4,24 +4,27 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	<h:panelGrid columns="4" cellpadding="10" id="panelFacilit">
-		<img
+	<!--img
 			src="#{request.contextPath}/admin/images/logo/#{homeBean.currentFacility.country}.gif"
-			alt="#{homeBean.currentFacility.country}" />
-		<h:inputText value="#{homeBean.currentFacility.name}"/>
-		<h:outputText value="Description" /><p:inputTextarea rows="3" cols="25"/>
+			alt="#{homeBean.currentFacility.country}" /-->
+	<h:panelGrid columns="6" cellpadding="10" id="panelFacilit">
+		<h:outputLabel value="Name" for="name" />
+		<p:inputText id="name" value="#{homeBean.currentFacility.name}" label="Facility name" required="true"/>
+		<h:outputText value="Description" /><p:inputTextarea value="#{homeBean.currentFacility.description}" rows="3" cols="25"/>
+		<h:outputText value="" /><h:outputText value="" />
 		<h:outputText value="Creation date" />
 		<p:calendar value="#{homeBean.currentFacility.birth}" />
-		<h:outputText value="Type" />
-		<p:selectOneMenu value="#{homeBean.currentFacility.type}" effect="fold"
-			editable="true">
+		<h:outputLabel value="Type" for="type"/>
+		<p:selectOneMenu id="type" value="#{homeBean.currentFacility.type}" label="Facility Type" required="true" effect="fold" editable="true">
+			<f:selectItem itemLabel="select one" itemValue="" />
 			<f:selectItem itemLabel="Hospital" itemValue="Hospital" />
 			<f:selectItem itemLabel="Clinic" itemValue="Clinic" />
 			<f:selectItem itemLabel="Pharmacy" itemValue="Pharmacy" />
+			<f:selectItem itemLabel="Health Center" itemValue="Health Center" />
 		</p:selectOneMenu>
-		<h:outputText value="Scope" />
-		<p:selectOneMenu value="#{homeBean.currentFacility.scope}"
-			effect="fold" editable="true">
+		<h:outputLabel value="Scope" for="scope" />
+		<p:selectOneMenu id="scope" value="#{homeBean.currentFacility.scope}" label="Facility scope" required="true" effect="fold" editable="false">
+			<f:selectItem itemLabel="select one" itemValue="" />
 			<f:selectItem itemLabel="PUBLIC" itemValue="PUBLIC" />
 			<f:selectItem itemLabel="PRIVATE" itemValue="PRIVATE" />
 		</p:selectOneMenu>
@@ -33,14 +36,19 @@
 		<p:inputText value="#{homeBean.currentFacility.address}" />
 		<h:outputText value="Phone" />
 		<p:inputText value="#{homeBean.currentFacility.phone}" />
-		<h:outputText value="Country" />
+		<h:outputLabel value="Country" for="country"/>
 		<h:panelGroup>
-			<p:selectOneMenu value="#{homeBean.currentFacility.country}"
-				effect="fold" editable="true">
-				<f:selectItems value="#{cacheBean.mapCountries}" />
+			<p:selectOneMenu id="country"  value="#{homeBean.currentFacility.country}" label="Facility Country" required="true"  effect="fold" editable="false">
+				<f:selectItem itemLabel="select one" itemValue="" />
+				<f:selectItems value="#{cacheBean.countries}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
+				<p:ajax event="change" listener="#{homeBean.findCitiesOfCountry}" update="cityOfCountry messages"/>
 			</p:selectOneMenu>
-			<p:inputText value="#{homeBean.currentFacility.city}" disabled="false" />
 		</h:panelGroup>
+		<h:outputText value="City" />
+		<p:selectOneMenu id="cityOfCountry" value="#{homeBean.currentFacility.city}" effect="fold" editable="false">
+			<f:selectItem itemLabel="select city" itemValue=""/>
+			<f:selectItems value="#{homeBean.cities}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
+		</p:selectOneMenu>
 		<h:outputText value="Latitude" />
 		<p:inputText value="#{homeBean.currentFacility.latitude}" />
 		<h:outputText value="Longitude" />
@@ -48,7 +56,7 @@
 	</h:panelGrid>
 	<p:tabView id="tabViewCarac">  
 	    <p:tab id="tab1" title="Capacity"> 
-	 		 <h:panelGrid columns="2" cellpadding="10">
+	 		 <h:panelGrid columns="4" cellpadding="10">
 	 		 	<h:outputText value="Number of doctors" />
 	 		 	<p:spinner value="#{homeBean.currentFacility.capacity.doctor}" min="1" max="100"/>
 	 		 	<h:outputText value="Number of nurse" />
@@ -58,7 +66,7 @@
 	 		 </h:panelGrid>
 	 	</p:tab>
 	 	<p:tab id="tab2" title="Service"> 
-	 		 <h:panelGrid columns="4" cellpadding="10">
+	 		 <h:panelGrid columns="6" cellpadding="10">
 	 		 	<h:outputText value="Pediatric" />
 	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.pediatric}" onLabel="YES" offLabel="NO"/>
 	 		 	<h:outputText value="Radiology" />

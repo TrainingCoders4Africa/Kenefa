@@ -10,11 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import c4a.kenefa.api.model.embedded.Capacity;
 import c4a.kenefa.api.model.embedded.Rating;
@@ -30,23 +31,26 @@ public class Facility implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "_id")
-	@XmlTransient
-	private String id=null;
+	private Long id=null;
 	private String name = null;
+	private String description;
 	private String address = null;
 	private String phone = null;
 	private String scope = null;
 	private String cityName = null;
 	private Integer city = null;
 	private String country = null;
-	private String url;
+	private String url="http://";
 	private String openingHours = null;
 	private Double longitude = null;
 	private Double latitude = null;
 	private String type = null; // (physician, clinic, hospital, nursing home)
+	@Temporal(value=TemporalType.DATE)
 	private Date birth = null;
+	private String img;
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	private Country country;
 
@@ -147,12 +151,16 @@ public class Facility implements Serializable{
 		super();
 	}
 
+	public Facility(Long id) {
+		this.id=id;
+	}
+
 	// getters and setters
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -315,6 +323,22 @@ public class Facility implements Serializable{
 
 	public void setCityName(String  cityName) {
 		this.cityName = cityName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 }

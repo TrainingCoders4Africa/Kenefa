@@ -39,7 +39,12 @@
 		  
 			<p:growl id="messages" showDetail="true"/> 
 		   	<ui:include src="facility-form.xhtml" />
-			<center><p:commandButton actionListener="#{homeBean.saveFacility}" value="validate" update=":formFacility"></p:commandButton></center>
+			<center><p:commandButton actionListener="#{homeBean.cancelFacility}" value="Cancel" update=":formFacility"/> 
+			<p:commandButton actionListener="#{homeBean.saveFacility}" value="Validate" update=":formFacility"></p:commandButton></center>
+			
+			<p:dialog id="idFacilityAll" widgetVar="facilityAll" header="All facilities"  modal="true" showEffect="fade" hideEffect="fade">
+		    	<ui:include src="facility-all.xhtml" />
+	   		</p:dialog>
 		</h:form> 
 	</ui:define>
 </ui:composition>

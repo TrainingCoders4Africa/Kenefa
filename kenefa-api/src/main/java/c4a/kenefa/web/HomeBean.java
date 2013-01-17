@@ -1,6 +1,8 @@
 package c4a.kenefa.web;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -43,8 +45,12 @@ public class HomeBean implements Serializable {
     private Facility currentFacility = null;
 	private PieChartModel pieDoctorFacility = new PieChartModel();
 	
-	private List<Country> countries;
+	//private List<Country> countries;
     private boolean showMapMind=true;
+	private Collection<City> cities;
+	private List<Country> countries;
+	private LinkedHashMap<String, Country> mapCountries;
+    
 
     public boolean isShowMapMind(){
         return this.showMapMind;
@@ -66,8 +72,8 @@ public class HomeBean implements Serializable {
 	    		MindmapNode map = new DefaultMindmapNode(c.getName(), c, "6e9ebf", true);
 	    		root.addNode(map);
 	    	}
-	    	this.prepareTree();
 	    }
+	    this.prepareTree();
 	    currentFacility = new Facility(new Capacity(), new Service(), new Rating());
     }
 
@@ -161,19 +167,45 @@ public class HomeBean implements Serializable {
         return pieDoctorFacility;  
     }  
   
-    private void createPieDoctorFacility(List<Facility> l) {  
+    private void createPieDoctorFacility(List<Facility> l) { //TODO 
         for(Facility f:l){
         	if(f.getCapacity()!=null&&f.getCapacity().getDoctor()>0)
         	pieDoctorFacility.set(f.getName(), f.getCapacity().getDoctor());  
         }
     }
-
-	public List<Country> getCountries() {
+    
+    private List<Country> getCountries() {
 		if(countries==null){
 			countries=cdao.getCountries();
 		}
 		return countries;
 	}  
+	
+    public LinkedHashMap<String,Country> getMapCountries(){
+		if(mapCountries==null){
+			mapCountries = new LinkedHashMap<String, Country>();
+			for(Country country:this.getCountries()){
+				mapCountries.put(country.getId(), country);
+			}
+		}
+		return mapCountries;
+	}
+
+	public void findCitiesOfCountry(AjaxBehaviorEvent e){
+		try{
+			Country cc = new Country();
+			//if(currentFacility.getCountry()!=null&&currentFacility.getCountry().length()>2)
+				cc.setId(this.getMapCountries().get(currentFacility.getCountry()).getId());
+			int index=cdao.getCountries().indexOf(cc);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Current country : "+index+" " + currentFacility.getCountry()));
+			Country c = cdao.getCountries().get(index<0?0:index);
+			if(c!=null){
+				cities = c.getCities();
+			}
+		}catch(Exception c){
+			c.printStackTrace();
+		}
+	}
 	
 	private TreeNode treeRoot=null;
 	private Doc doc;  
@@ -181,7 +213,7 @@ public class HomeBean implements Serializable {
 	 public void prepareTree() {  
 		 if(treeRoot==null){
 	    	treeRoot = new DefaultTreeNode("root", null);  
-	    	for(Country country:this.getCountries()){
+	    	for(Country country:cdao.getCountries()){
 	    		//TreeNode doc1 = new DefaultTreeNode("country",new Doc(country.getName()), treeRoot);
 	    		int i=0;
 	    		TreeNode doc1=null;
@@ -208,35 +240,51 @@ public class HomeBean implements Serializable {
 
 	}
 	 
-	public void saveFacility(AjaxBehaviorEvent e){
-		
-	}
-	
+	 public void cancelFacility(ActionEvent e){
+		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operation cancelled !!!!"));
+	     currentFacility = new Facility(new Capacity(), new Service(), new Rating());
+	 }
+	 
+	 public void removeFacility(ActionEvent e){
+		 fdao.removeFacility(currentFacility.getId());
+		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("FAcility removed in success !!!!"));
+	 }
+	 
 	public void saveFacility(ActionEvent e){
-		LOGGER.info("FACILITY : " +currentFacility.getId()+"--------" + currentFacility.getName());
+		Country c=this.getMapCountries().get(currentFacility.getCountry());
+		if(c!=null){
+			currentFacility.setCountry(c.getId());
+			Collection<City> cc = c.getCities();
+			City city=new City(currentFacility.getCity());
+			for(City ci:cc){
+				if(ci.equals(city)){
+					city=ci;
+					break;
+				}
+			}
+			
+			currentFacility.setCityName(city.getName());
+		}
+		LOGGER.info("FACILITY : " +currentFacility.getId()+"--------" + currentFacility.getName()+" country :" + currentFacility.getCountry());
 		if(currentFacility.getId()!=null)
 			fdao.updateFacility(currentFacility.getId(), currentFacility);
 		else fdao.getDao().persist(currentFacility);
-		//treeRoot=null;
-		//this.prepareTree();
-		LOGGER.info("Facility updated gone!!!!!!!!!");
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operation done in success !!!!"));
+		currentFacility = new Facility(new Capacity(), new Service(), new Rating());
 	}
 
     public void displaySelectedFacility(){
     	this.showMapMind=false;
+    	this.findCitiesOfCountry(null); 
     }
     
     public void activMindMap(){
     	this.showMapMind=true;
     }
-
-    public void deleteFacility(){
-
-    }
 	 
-	 public TreeNode getTreeRoot() {
+	public TreeNode getTreeRoot() {
 			return treeRoot;
-		}
+	}
 	 
 	 public Doc getDoc(){
 		 return doc;
@@ -244,6 +292,10 @@ public class HomeBean implements Serializable {
 
 	public void setDoc(Doc doc) {
 		this.doc = doc;
+	}
+
+	public Collection<City> getCities() {
+		return cities;
 	}
 	 
 	 

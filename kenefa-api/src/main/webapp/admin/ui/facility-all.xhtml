@@ -19,8 +19,19 @@
                     <p:inputText value="#{facility.name}" style="width:100%"/>  
                 </f:facet>  
             </p:cellEditor>  
-        </p:column>  
-  
+        </p:column> 
+        
+        <p:column headerText="Description" style="width:125px">  
+            <p:cellEditor>  
+                <f:facet name="output">  
+                    <h:outputText value="#{facility.description}" />  
+                </f:facet>  
+                <f:facet name="input">  
+                    <p:inputText value="#{facility.description}" style="width:100%"/>  
+                </f:facet>  
+            </p:cellEditor>  
+        </p:column> 
+        
         <p:column headerText="Country" style="width:125px">  
             <p:cellEditor>  
                 <f:facet name="output">  
@@ -36,6 +47,28 @@
                 </f:facet>  
             </p:cellEditor>  
         </p:column>  
+        
+         <p:column headerText="City" style="width:125px">  
+            <p:cellEditor>  
+                <f:facet name="output">  
+                    <h:outputText value="#{facility.cityName}" />  
+                </f:facet>  
+                <f:facet name="input">  
+                    <p:inputText value="#{facility.cityName}" style="width:100%"/>  
+                </f:facet>  
+            </p:cellEditor>  
+        </p:column>  
+        
+        <p:column headerText="Address" style="width:125px">  
+            <p:cellEditor>  
+                <f:facet name="output">  
+                    <h:outputText value="#{facility.address}" />  
+                </f:facet>  
+                <f:facet name="input">  
+                    <p:inputText value="#{facility.address}" style="width:100%"/>  
+                </f:facet>  
+            </p:cellEditor>  
+        </p:column> 
   
         <p:column headerText="Options" style="width:50px">  
             <p:rowEditor />  

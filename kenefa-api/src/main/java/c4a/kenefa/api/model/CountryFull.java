@@ -3,9 +3,13 @@ package c4a.kenefa.api.model;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import c4a.kenefa.api.data.DAO;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CountryFull extends Country{
@@ -22,7 +26,17 @@ public class CountryFull extends Country{
 //	private Collection<City> cities=new ArrayList<City>();
 	List<Facility> topFacilities;
 	List<Facility> bottomFacilities;
-	Long numberFacilies=0l;
+	Long numberFacilies=null;
+	@Inject
+	private DAO<Country> dao;
+	
+	public CountryFull(Country country){
+		this.id=country.getId();
+		this.name=country.getName();
+		this.description=country.getDescription();
+		this.latitude=country.getLatitude();
+		this.longitude=country.getLongitude();
+	}
 	
 	public CountryFull(String name) {
 		super(name);
@@ -88,6 +102,15 @@ public class CountryFull extends Country{
 	}
 
 	public Long getNumberFacilies() {
+		if(numberFacilies==null&& this.id!=null){
+			String jpql="SELECT COUNT(f.id) from "+Facility.class.getName()+" f where f.country='"+id+"'";
+			try{
+				this.numberFacilies=new Long(""+dao.getResultList(jpql, null).size());
+				//(Long) dao.getEm().createQuery(jpql).getSingleResult();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		return numberFacilies;
 	}
 
@@ -96,6 +119,9 @@ public class CountryFull extends Country{
 	}
 
 	public List<Facility> getTopFacilities() {
+		if(topFacilities==null){
+			this.topFacilities=this.getCountryTopBottomFacilities(id, "ASC", 5);
+		}
 		return topFacilities;
 	}
 
@@ -104,11 +130,22 @@ public class CountryFull extends Country{
 	}
 
 	public List<Facility> getBottomFacilities() {
+		if(bottomFacilities==null){
+			this.bottomFacilities=this.getCountryTopBottomFacilities(id, "DESC", 5);
+		}
 		return bottomFacilities;
 	}
 
 	public void setBottomFacilities(List<Facility> bottomFacilities) {
 		this.bottomFacilities = bottomFacilities;
 	}
-
+	
+	
+	@SuppressWarnings({ "unchecked" })
+	private List<Facility> getCountryTopBottomFacilities(String country, String sens,  int number){
+		String qstr = "SELECT f FROM " + Facility.class.getName() + " f where f.country = '"+
+				country+"' ORDER BY f.rating.overall " + sens;
+				Query query = dao.getEm().createQuery(qstr);
+		return query.setMaxResults(number).getResultList();
+	}
 }

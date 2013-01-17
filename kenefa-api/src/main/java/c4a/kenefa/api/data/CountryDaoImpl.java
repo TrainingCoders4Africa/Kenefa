@@ -29,6 +29,7 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 		EntityManager em = dao.getEm();
 		Query query = em.createQuery(qstr);
 		List<Country> l= query.getResultList();
+		em=null;
 		return l;
 	}
 	
@@ -56,11 +57,11 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 	@Override
 	public CountryFull getCountryFullById(String id) {
 		Country country= dao.getEm().find(Country.class, id);
-		CountryFull cf= new CountryFull();
+		CountryFull cf= new CountryFull(country);
 		cf.setCities(country.getCities());
-		cf.setDescription(country.getDescription());
-		cf.setId(country.getId());
-		cf.setName(country.getName());
+//		cf.setDescription(country.getDescription());
+//		cf.setId(country.getId());
+//		cf.setName(country.getName());
 		cf.setStatistics(getCountryStatistics(id));
 		Map<String, Long> map = getCountryStatistics(id);
 		LOGGER.info("COUNTRY sTATIsTICs :" +map.size());
@@ -151,20 +152,20 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 		Query query = dao.getEm().createQuery(qstr);
 		List<Facility> fc=query.setMaxResults(number).getResultList();
 		for(Facility f: fc){
-			topFacilities.put(f.getId(), f.getName());
+			topFacilities.put(f.getId().toString(), f.getName());
 		}
 		return topFacilities;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<CountryFull> getNumberFacilitiesByCountry(int number){
 		List<CountryFull> l=new LinkedList<CountryFull>();
 		String jpql="select f.country, count(f.id) from " + Facility.class.getName() + " f group by f.country";
 		Query query = dao.getEm().createQuery(jpql);
-		@SuppressWarnings("unchecked")
 		List<Object[]> r= query.setMaxResults(number).getResultList();
 		for(Object[] obj:r){
-			CountryFull cf= new CountryFull(((Country)dao.getEm().find(Country.class, obj[0])).getName());
+			CountryFull cf= new CountryFull((Country)dao.getEm().find(Country.class, obj[0]));
 			Map<String, Long> statistics=new HashMap<String, Long>();
 			statistics.put(cf.getName(), (Long)obj[1]);
 			cf.setNumberFacilies((Long)obj[1]);
