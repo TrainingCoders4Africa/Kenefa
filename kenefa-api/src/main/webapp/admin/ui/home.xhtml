@@ -19,15 +19,13 @@
 
 	<ui:define name="content">
 		<h:form id="formFacility">
+		<p:growl id="messages" showDetail="true"/>
 			<p:toolbar>  
 		    <p:toolbarGroup align="left">  
-		        <p:commandButton type="button" value="Show list" icon="ui-icon-folder-open" onclick="facilityAll.show()"/>  
-		  		<p:commandButton type="button"  value="New" icon="ui-icon-document" actionListener="#{homeBean.init}"/>
-		        <p:separator />  
-		  
-		        <p:commandButton type="button" title="Save" icon="ui-icon-disk"  actionListener="#{homeBean.saveFacility}"/>  
-		        <p:commandButton type="button" title="Delete" icon="ui-icon-trash"/>  
-		        <p:commandButton type="button" title="Print" icon="ui-icon-print"/>  
+		        <p:commandButton type="button" title="Save" icon="ui-icon-disk" />  
+		        <p:commandButton type="button" title="Print" icon="ui-icon-print">
+		        	<p:printer target="chartHome" />
+		        </p:commandButton>  
 		    </p:toolbarGroup>  
 		    <p:toolbarGroup align="right">  
 		        <p:menuButton value="Options">  
@@ -36,14 +34,15 @@
 		        </p:menuButton>  
 		    </p:toolbarGroup> 
 		  </p:toolbar> 
-		  
-			<p:growl id="messages" showDetail="true"/> 
-		   	<ui:include src="facility-form.xhtml" />
-			<center><p:commandButton actionListener="#{homeBean.cancelFacility}" value="Cancel" update=":formFacility"/> 
-			<p:commandButton actionListener="#{homeBean.saveFacility}" value="Validate" update=":formFacility"></p:commandButton></center>
+		  <p:panel id="chartHome" menuTitle="Facility form">
+		   	<p:barChart id="basic" value="#{chartBean.categoryModel}" legendPosition="ne"  
+	            	title="Capacity for 5 Bottom Facilities" min="0" max="200" style="height:250px"/>  
+			<p:barChart id="horizontal" value="#{chartBean.categoryTopFacilitiz}" legendPosition="se" style="height:250px"  
+	            	title="Capacity for 5 Top Facilities" orientation="horizontal" min="0" max="200"/>  
+		  </p:panel>
 			
 			<p:dialog id="idFacilityAll" widgetVar="facilityAll" header="All facilities"  modal="true" showEffect="fade" hideEffect="fade">
-		    	<ui:include src="facility-all.xhtml" />
+		    	<ui:include src="all-facility-complex.xhtml" />
 	   		</p:dialog>
 		</h:form> 
 	</ui:define>

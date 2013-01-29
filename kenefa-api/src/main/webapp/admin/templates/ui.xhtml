@@ -31,8 +31,36 @@
 
 		<div id="header" class="ui-widget ui-widget-header">
 			<div id="logo">
+			<a href="#{request.contextPath}/faces/admin/ui/home.xhtml">
 				<img src="#{request.contextPath}/admin/images/logo.png" alt="Logo"/>
+			</a>
 			</div>
+			<div id="menu" class="ui-widget">
+                <ul id="main">
+                    <li class="current_page_item"><a href="#{request.contextPath}/faces/admin/ui/home.xhtml" style="background:url('../img-menu/home.png') no-repeat center left;">Home</a></li>
+                    <li><a href="#{request.contextPath}/faces/admin/ui/facility.xhtml" style="background:url('../img-menu/mapMind.png') no-repeat center left;">Facilities</a></li>
+                    <li><a href="#{request.contextPath}/faces/admin/ui/dashboard.xhtml" style="background:url('../img-menu/dashboard.png') no-repeat center left">Dashboard</a></li>
+                    <li class="current_page_item"><a href="#{request.contextPath}/faces/admin/ui/admin.xhtml" style="background:url('../img-menu/admin.png') no-repeat center left;">Admin</a></li>
+                </ul>
+            </div>
+            
+            <div id="globalthemeswitcher">
+                <h:form>
+                    <p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:175px;" effect="fade" var="t">
+                        <f:selectItem itemLabel="Choose Theme" itemValue="" />
+                        <f:selectItems value="#{themeSwitcherBean.advancedThemes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
+                        <p:ajax listener="#{themeSwitcherBean.saveTheme}" />
+                        
+                        <p:column>
+                            <h:graphicImage  value="/admin/images/themes/#{t.image}" />
+                        </p:column>
+                        
+                        <p:column>
+                            #{t.name}
+                        </p:column>
+                    </p:themeSwitcher>
+                </h:form>
+            </div>
 		</div>
 		
         <div id="page" class="ui-widget">
@@ -55,13 +83,13 @@
             <div style="clear: both;">&nbsp;</div>
 
 		<div id="footer" class="ui-widget ui-widget-header ui-corner-all">
-			<p class="copyright">#{build.team} / #{build.enterprise}</p>
+			<p class="copyright">#{lang.team} / #{lang.enterprise}</p>
 		</div>
 
         <ui:insert name="status">
-            <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
+            <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;top:5px">
                 <f:facet name="start">
-                    <p:graphicImage value="/images/loading.gif" />
+                    <p:graphicImage value="/admin/images/loading.gif" />
                 </f:facet>
 
                 <f:facet name="complete">

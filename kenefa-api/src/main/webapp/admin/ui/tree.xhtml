@@ -3,17 +3,24 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+	
       		<p:scrollPanel style="width:99%;height:560px">
     					<h:form id="formTree">   
                             <p:contextMenu for="docTree">  
                                 <p:menuitem value="View" update=":formFacility" actionListener="#{homeBean.displaySelectedFacility}" icon="ui-icon-search" />  
-                                <p:menuitem value="Delete" update="@form" actionListener="#{homeBean.removeFacility}" icon="ui-icon-close"/>  
-                            </p:contextMenu>         
+                                <p:menuitem value="Delete"  icon="ui-icon-close" onclick="confirmation.show()"/>  
+                            </p:contextMenu>    
+                            <p:confirmDialog id="confirmDialog" message="Are you sure about deleting this facility?"  
+						                header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
+						        <p:commandButton id="confirm" value="Yes Sure" update="@form" actionListener="#{homeBean.removeFacility}" oncomplete="confirmation.hide()"  />  
+						        <p:commandButton id="decline" value="Not Yet" onclick="confirmation.hide()" type="button" />   
+						    </p:confirmDialog>  
+                                 
                            <p:tree id="docTree" value="#{homeBean.treeRoot}" var="doc"
                                 selectionMode="single"  
                                 selection="#{homeBean.selectedTreeNode}">  
                                 <p:ajax event="select" listener="#{homeBean.onFacilitySelect}" /> 
-						        <p:treeNode type="facility" icon="ui-icon-image">  
+						        <p:treeNode id="docTreeeFacility" type="facility" icon="ui-icon-image">  
 						            <h:outputText value="#{doc.name}" />  
 						        </p:treeNode>
 						        <p:treeNode type="country" expandedIcon="ui-icon-folder-open"  

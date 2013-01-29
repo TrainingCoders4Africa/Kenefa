@@ -1,0 +1,84 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<!--img
+			src="#{request.contextPath}/admin/images/logo/#{homeBean.currentFacility.country}.gif"
+			alt="#{homeBean.currentFacility.country}" /-->
+		
+	<h:panelGrid columns="6" cellpadding="10" id="panelFacilit">
+		<h:outputLabel value="Name" for="name" />
+		<p:inputText disabled="true" id="name" value="#{homeBean.currentFacility.name}" label="Facility name" required="true"/>
+		<h:outputText value="Description" /><p:inputTextarea disabled="true" value="#{homeBean.currentFacility.description}" rows="3" cols="25"/>
+		<h:outputText value="" /><h:outputText value="" />
+		<h:outputText value="Creation date" />
+		<p:inputText disabled="true"  value="#{homeBean.currentFacility.birth}" />
+		<h:outputLabel value="Type" for="type"/>
+		<p:inputText disabled="true"  id="type" value="#{homeBean.currentFacility.type}" label="Facility Type" required="true" effect="fold" editable="true"/>
+		<h:outputLabel value="Scope" for="scope" />
+		<p:inputText disabled="true" id="scope" value="#{homeBean.currentFacility.scope}" label="Facility scope" required="true" effect="fold" editable="false"/>
+		<h:outputText value="Opening hours" />
+		<p:inputText disabled="true"  value="#{homeBean.currentFacility.openingHours}" />
+		<h:outputText value="Website" />
+		<p:inputText disabled="true"  value="#{homeBean.currentFacility.url}" />
+		<h:outputText value="Adress" />
+		<p:inputText disabled="true"  value="#{homeBean.currentFacility.address}" />
+		<h:outputText value="Phone" />
+		<p:inputText disabled="true"  value="#{homeBean.currentFacility.phone}" />
+		<h:outputLabel value="Country" for="country"/>
+		<h:panelGroup>
+			<p:inputText disabled="true"  id="country"  value="#{homeBean.currentFacility.country}" style="width:170px" label="Facility Country" required="true"  effect="fold" editable="false"/>
+		</h:panelGroup>
+		<h:outputText value="City" />
+		<p:inputText disabled="true"  id="cityOfCountry" value="#{homeBean.currentFacility.city}" style="width:170px" effect="fold" editable="false"/>
+		<h:outputText value="Latitude" />
+		<p:inputText disabled="true"  value="#{homeBean.currentFacility.latitude}" />
+		<h:outputText value="Longitude" />
+		<p:inputText disabled="true"  value="#{homeBean.currentFacility.longitude}" />
+	</h:panelGrid>
+	<p:tabView id="tabViewCarac">  
+	    <p:tab id="tab1" title="Capacity"> 
+	 		 <h:panelGrid columns="4" cellpadding="10" >
+	 		 	<h:outputText value="Number of doctors" />
+	 		 	<p:spinner disabled="true"  value="#{homeBean.currentFacility.capacity.doctor}" min="1" max="100"/>
+	 		 	<h:outputText value="Number of nurse" />
+	 		 	<p:spinner disabled="true"  value="#{homeBean.currentFacility.capacity.nurse}" min="1" max="500"/>
+	 		 	<h:outputText value="Number of beds" />
+	 		 	<p:spinner disabled="true"  value="#{homeBean.currentFacility.capacity.bed}" min="1" />
+	 		 </h:panelGrid>
+	 	</p:tab>
+	 	<p:tab id="tab2" title="Service"> 
+	 		 <h:panelGrid columns="6" cellpadding="10">
+	 		 	<h:outputText value="Pediatric" />
+	 		 	<p:selectBooleanButton disabled="true"  value="#{homeBean.currentFacility.service.pediatric}" onLabel="YES" offLabel="NO"/>
+	 		 	<h:outputText value="Radiology" />
+	 		 	<p:selectBooleanButton disabled="true" value="#{homeBean.currentFacility.service.radiology}" onLabel="YES" offLabel="NO"/>
+	 		 	<h:outputText value="Pharmacy" />
+	 		 	<p:selectBooleanButton disabled="true" value="#{homeBean.currentFacility.service.pharmacy}" onLabel="YES" offLabel="NO"/>
+	 		 	<h:outputText value="Emergency Care" />
+	 		 	<p:selectBooleanButton disabled="true" value="#{homeBean.currentFacility.service.emergencyCare}" onLabel="YES" offLabel="NO"/>
+	 		 	<h:outputText value="Inpatient" />
+	 		 	<p:selectBooleanButton disabled="true" value="#{homeBean.currentFacility.service.inpatient}" onLabel="YES" offLabel="NO"/>
+	 		 </h:panelGrid>
+	 	</p:tab>
+	 	<p:tab id="tab3" title="Rating"> 
+	 		 <h:panelGrid columns="6" cellpadding="10">
+	 		 	<h:outputText value="Overall" />
+	 		 	<p:rating disabled="true" value="#{homeBean.currentFacility.rating.overall}"/>
+	 		 	<h:outputText value="Training" />
+	 		 	<p:rating disabled="true" value="#{homeBean.currentFacility.rating.training}"/>
+	 		 	<h:outputText value="Knowledge" />
+	 		 	<p:rating disabled="true" value="#{homeBean.currentFacility.rating.knowledge}"/>
+	 		 	<h:outputText value="cleanliness" />
+	 		 	<p:rating disabled="true" value="#{homeBean.currentFacility.rating.cleanliness}"/>
+	 		 	<h:outputText value="Equipment State" />
+	 		 	<p:rating disabled="true" value="#{homeBean.currentFacility.rating.equipmentState}"/>
+	 		 	<h:outputText value="Building State" />
+	 		 	<p:rating disabled="true" value="#{homeBean.currentFacility.rating.buildingState}" /> 
+	 		 </h:panelGrid>
+	 	</p:tab>
+	 </p:tabView>
+	 
+</ui:composition>

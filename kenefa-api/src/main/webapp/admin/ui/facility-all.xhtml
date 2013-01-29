@@ -5,34 +5,34 @@
 	xmlns:p="http://primefaces.org/ui">
   
   
-    <p:dataTable var="facility" value="#{homeBean.facilities}" scrollable="true" scrollHeight="450" resizableColumns="true" id="facility" editable="true">  
+    <p:dataTable var="facility" value="#{homeBean.facilities}" scrollable="true" scrollHeight="500" id="facility" editable="true">  
   
         <p:ajax event="rowEdit" listener="#{homeBean.onEdit}" update=":formFacility:messages" />  
         <p:ajax event="rowEditCancel" listener="#{homeBean.onCancel}" update=":formFacility:messages" />  
   
-        <p:column headerText="Name" style="width:125px">  
+        <p:column headerText="Name" >  
             <p:cellEditor>  
                 <f:facet name="output">  
                     <h:outputText value="#{facility.name}" />  
                 </f:facet>  
                 <f:facet name="input">  
-                    <p:inputText value="#{facility.name}" style="width:100%"/>  
+                    <p:inputText value="#{facility.name}" />  
                 </f:facet>  
             </p:cellEditor>  
         </p:column> 
         
-        <p:column headerText="Description" style="width:125px">  
+        <p:column headerText="Description">  
             <p:cellEditor>  
                 <f:facet name="output">  
                     <h:outputText value="#{facility.description}" />  
                 </f:facet>  
                 <f:facet name="input">  
-                    <p:inputText value="#{facility.description}" style="width:100%"/>  
+                    <p:inputText value="#{facility.description}" />  
                 </f:facet>  
             </p:cellEditor>  
         </p:column> 
         
-        <p:column headerText="Country" style="width:125px">  
+        <p:column headerText="Country" >  
             <p:cellEditor>  
                 <f:facet name="output">  
                     <h:outputText value="#{facility.country}" />  
@@ -48,24 +48,24 @@
             </p:cellEditor>  
         </p:column>  
         
-         <p:column headerText="City" style="width:125px">  
+         <p:column headerText="City" >  
             <p:cellEditor>  
                 <f:facet name="output">  
                     <h:outputText value="#{facility.cityName}" />  
                 </f:facet>  
                 <f:facet name="input">  
-                    <p:inputText value="#{facility.cityName}" style="width:100%"/>  
+                    <p:inputText value="#{facility.cityName}" />  
                 </f:facet>  
             </p:cellEditor>  
         </p:column>  
         
-        <p:column headerText="Address" style="width:125px">  
+        <p:column headerText="Address" >  
             <p:cellEditor>  
                 <f:facet name="output">  
                     <h:outputText value="#{facility.address}" />  
                 </f:facet>  
                 <f:facet name="input">  
-                    <p:inputText value="#{facility.address}" style="width:100%"/>  
+                    <p:inputText value="#{facility.address}" />  
                 </f:facet>  
             </p:cellEditor>  
         </p:column> 

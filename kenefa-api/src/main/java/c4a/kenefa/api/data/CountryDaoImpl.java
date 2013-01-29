@@ -34,6 +34,26 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Country> getCountriesThatHaveFacility(){
+		EntityManager em = dao.getEm();
+		String countriz="(";
+		List<String> lc=em.createQuery("SELECT f.country from Facility f group by f.country").getResultList();
+		int i=0;
+		for(String obj:lc){
+			if(i==0)countriz+="'"+obj;
+			else countriz+="','"+obj;
+			i++;
+		}
+		countriz+="')";
+		String qstr = "SELECT c FROM " + Country.class.getName()
+				+" c where c.id in  " + countriz;
+		Query query = em.createQuery(qstr);
+		List<Country> l= query.getResultList();
+		em=null;
+		return l;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Facility> getFacilitiesByCountry(String country){
 		String qstr = "SELECT f FROM " + Facility.class.getName() + " f where f.country = '"+country+"'";
 		Query query = dao.getEm().createQuery(qstr);
@@ -63,8 +83,8 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 //		cf.setId(country.getId());
 //		cf.setName(country.getName());
 		cf.setStatistics(getCountryStatistics(id));
-		Map<String, Long> map = getCountryStatistics(id);
-		LOGGER.info("COUNTRY sTATIsTICs :" +map.size());
+		//Map<String, Long> map = getCountryStatistics(id);
+		//LOGGER.info("COUNTRY sTATIsTICs :" +map.size());
 		cf.setTopFacilities(getCountryTopBottomFacilities(id, "ASC", 5));
 		cf.setBottomFacilities(getCountryTopBottomFacilities(id, "DESC", 5));
 		return cf;

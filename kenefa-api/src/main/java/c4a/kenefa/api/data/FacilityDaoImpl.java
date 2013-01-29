@@ -39,7 +39,7 @@ public class FacilityDaoImpl<E>  implements FacilityDao<E> {
 		//f.setId(id);
 		//em.remove(em.find(Facility.class, id));//TODO to review this phenomen
 		//facility=em.merge(f);
-		em.persist(f);
+		//em.persist(f);
 		LOGGER.info("id facility= " + facility.getId() +" facility Merged = "+facility.getName());
 		tx.commit();
 		return facility;
@@ -66,7 +66,7 @@ public class FacilityDaoImpl<E>  implements FacilityDao<E> {
 		fManaged.setCityName(fNew.getCityName());
 		fManaged.setCity(fNew.getCity());
 		fManaged.setCapacity(fNew.getCapacity());
-		fManaged.setBirth(fNew.getBirth());
+		//fNouv.setBirth(fManaged.getBirth());
 		fManaged.setAddress(fNew.getAddress());
 		fManaged.setOpeningHours(fNew.getOpeningHours());
 		return fManaged;

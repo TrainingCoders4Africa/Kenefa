@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/ui.xhtml">
+    
+    <ui:define name="head">
+        <style type="text/css">
+		.ui-confirm-dialog-severity {
+			margin: 0 7px 7px 0;
+		}
+        </style>
+    </ui:define>
+
+    <ui:define name="sidebar">
+    		
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formAdministration">
+			<p:growl id="messages" showDetail="true"/>
+		</h:form> 
+	</ui:define>
+</ui:composition>

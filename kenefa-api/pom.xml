@@ -13,6 +13,7 @@
 		</license>
 	</licenses>
 	<properties>
+		<theme.version>1.0.8</theme.version>
 		<applicationServer7Version>7.1.1.Final</applicationServer7Version>
 		<jbossTargetDir>${project.build.directory}/cargo/installs/jboss-as-dist-${applicationServer7Version}/jboss-as-${applicationServer7Version}</jbossTargetDir>
 		<!-- Explicitly declaring the source encoding eliminates the following 
@@ -97,7 +98,7 @@
 			<dependency>
 				<groupId>org.primefaces</groupId>
 				<artifactId>primefaces</artifactId>
-				<version>3.5-SNAPSHOT</version>
+				<version>3.5.RC1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.primefaces</groupId>
@@ -238,7 +239,44 @@
             <artifactId>jboss-servlet-api_3.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-	
+        
+        <!-- Themes -->
+		<dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>eggplant</artifactId>
+            <version>${theme.version}</version>
+        </dependency>
+         <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>cruze</artifactId>
+            <version>${theme.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>cupertino</artifactId>
+            <version>${theme.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>eggplant</artifactId>
+            <version>${theme.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>le-frog</artifactId>
+            <version>${theme.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>midnight</artifactId>
+            <version>${theme.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>sunny</artifactId>
+            <version>${theme.version}</version>
+        </dependency>
+		<!---->
 	</dependencies>
 
 	<build>

@@ -14,65 +14,44 @@
     </ui:define>
 
     <ui:define name="sidebar">
-    		<ui:include src="tree.xhtml" />
+    	<p:panel closable="true" >
+			<ui:include src="tree.xhtml" />
+		</p:panel>
 	</ui:define>
 
 	<ui:define name="content">
 	
 		<h:form id="formFacility">  
-		<p:growl id="messages" showDetail="true"/> 
-		  <p:toolbar>  
-		    <p:toolbarGroup align="left">  
-		        <p:commandButton type="button" value="Show list" icon="ui-icon-folder-open" onclick="facilityAll.show()"/>  
-		    </p:toolbarGroup>  
-		    <p:toolbarGroup align="right">  
-		        <p:menuButton value="Options">  
-		             <p:menuitem value="Kenefa map" outcome="/faces/admin/ui/mapMindFacility.xhtml" />  
-		             <p:menuitem value="Home" outcome="/faces/admin/ui/home.xhtml" />  
-		        </p:menuButton>  
-		    </p:toolbarGroup> 
-		  </p:toolbar>  
-		  	<p:panel id="panelKenefa" >
+		<p:growl id="messages" showDetail="true"/>
+		  
+		  <p:tabView id="tabViewChart"> 
+		  	 <p:tab id="panelKenefa" title="MapMind">  
 			    <p:mindmap  value="#{homeBean.root}" style="width:99%;height:500px;border:1px solid black;">  
 			        <p:ajax event="select" listener="#{homeBean.onNodeSelect}" />  
-			        <p:ajax event="dblselect" listener="#{homeBean.onNodeDblselect}" update="tabView" oncomplete="details.show()"/>  
+			        <p:ajax event="dblselect" listener="#{homeBean.onNodeDblselect}" update=":formFacility:display" oncomplete="facilityDialog.show()"/>  
 			    </p:mindmap>  
-			</p:panel>
+			</p:tab>
+		  	<p:tab id="tabAllFacilitiz" title="Facilities" >
+		  		<!--ui:include src="facility-all.xhtml" /-->
+		  		<p:scrollPanel style="width:99%;">
+		  			<ui:include src="all-facility-complex.xhtml" />
+		  		</p:scrollPanel>
+		  	</p:tab> 
+		  	<p:tab id="tabAllServicz" title="Services">
+		  		Sorry, Feature not yet implemented!!!!
+		  	</p:tab> 
+          </p:tabView>
 		  
-		    <p:dialog id="formMngFacility" widgetVar="dialogFacility" header="Add new Facility"  modal="true" showEffect="fade" hideEffect="fade">
-        		<h:form>
-			         <p:toolbar>  
-					    <p:toolbarGroup align="left">  
-					        <p:commandButton type="button" title="Save" icon="ui-icon-disk"/>  
-					        <p:commandButton type="button" title="Delete" icon="ui-icon-trash"/>  
-					        <p:commandButton type="button" title="Print" icon="ui-icon-print"/>  
-					    </p:toolbarGroup>  
-					  </p:toolbar> 
-        			<ui:include src="facility-form.xhtml" />
-        		</h:form>
-	   </p:dialog>
+		  <p:dialog header="Facility Detail" widgetVar="facilityDialog" modal="true" 
+	               showEffect="explode" hideEffect="explode">  
+	        <h:panelGrid id="display" columns="1">  
+	  			<ui:include src="facility-form-details.xhtml" />
+	        </h:panelGrid>  
+	    </p:dialog> 
 	   
-	   <p:dialog id="idDtail" widgetVar="details" header="Facility Details" modal="true" showEffect="fade" hideEffect="fade">  
-		        <p:tabView id="tabView">  
-		            <p:tab id="tab1" title="General Info">  
-		                <ui:include src="facility-form.xhtml" />
-		            </p:tab>  
-		            <p:tab title="Statistique">
-		            	<p:pieChart  value="#{homeBean.pieDoctorFacility}" legendPosition="w"  
-                		title="number of doctors" style="width:400px;height:300px" />
-		            </p:tab>
-		         </p:tabView>
-		  </p:dialog> 
-	   
-	   <p:dialog id="idFacilityAll" widgetVar="facilityAll" header="All facilities"  modal="true" showEffect="fade" hideEffect="fade">
+	   <!--p:dialog id="idFacilityAll" widgetVar="facilityAll" header="All facilities"  modal="true" showEffect="fade" hideEffect="fade">
 		    	<ui:include src="facility-all.xhtml" />
-	   </p:dialog>
-	   
-	   <p:dialog id="idXtat" widgetVar="xtatx" header="Diagramme"  modal="true" showEffect="fade" hideEffect="fade">
-		    	<h:outputText value="Diagramme" />
-        		<p:pieChart  value="#{homeBean.pieDoctorFacility}" legendPosition="w"  
-                		title="number of doctors" style="width:400px;height:300px" />
-	   </p:dialog>
+	   </p:dialog-->
 		</h:form> 
 
 	</ui:define>

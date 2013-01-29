@@ -39,26 +39,23 @@ public class HomeBean implements Serializable {
 	private static final Logger LOGGER = Logger.getLogger(HomeBean.class);
     private MindmapNode root;
     private MindmapNode selectedNode;
-    private TreeNode selectedTreeNode;
+    private TreeNode selectedTreeNode=new DefaultTreeNode("root", null) ;
     @Inject private CountryDao<Country> cdao;
     @Inject private FacilityDao<Facility> fdao;
     private Facility currentFacility = null;
 	private PieChartModel pieDoctorFacility = new PieChartModel();
 	
 	//private List<Country> countries;
-    private boolean showMapMind=true;
+    //private boolean showMapMind=true;
 	private Collection<City> cities;
 	private List<Country> countries;
 	private LinkedHashMap<String, Country> mapCountries;
-    
+	private Integer currentCity;
+	private String currentCountry="SN";
+	
+    private List<Facility>  filteredFacilites;
 
-    public boolean isShowMapMind(){
-        return this.showMapMind;
-    }
-
-    public void setShowMapMind(boolean showMapMind){
-        this.showMapMind=showMapMind;
-    }
+   
     
     public HomeBean() {
     	
@@ -68,7 +65,7 @@ public class HomeBean implements Serializable {
     public void init(){
 	    if(root==null){
 	    	root = new DefaultMindmapNode("Kenefa", "Kenefa API", "FFCC00", false);
-	    	for(Country c:cdao.getCountries()){
+	    	for(Country c:cdao.getCountriesThatHaveFacility()){
 	    		MindmapNode map = new DefaultMindmapNode(c.getName(), c, "6e9ebf", true);
 	    		root.addNode(map);
 	    	}
@@ -89,6 +86,7 @@ public class HomeBean implements Serializable {
     }
 
     public Facility  getCurrentFacility(){
+    	if(this.currentFacility==null)currentFacility = new Facility(new Capacity(), new Service(), new Rating());
         return currentFacility;
     }
 
@@ -96,6 +94,8 @@ public class HomeBean implements Serializable {
         this.currentFacility=currentFacility;
     }
     public List<Facility> getFacilities(){
+    	if(currentCountry!=null&&currentCity!=null)
+    		return cdao.getFacilitiesByCountryAndCity(currentCountry, currentCity);
     	return fdao.getFacilities(0, 50);//TODO have to be filtered by country and city
     }
     public void onEdit(RowEditEvent event) {  
@@ -116,8 +116,12 @@ public class HomeBean implements Serializable {
     } 
 
     public void onFacilitySelect(NodeSelectEvent event) {  
-    	LOGGER.info("selected facility : " + event.getTreeNode().toString());
-    	if(event.getTreeNode().getData() instanceof Facility){
+    	//LOGGER.info("selected facility : " + event.getTreeNode().toString());
+    	if(event.getTreeNode().getType().equals("city")){
+    		 this.currentCity=((City)event.getTreeNode().getData()).getId();
+    	}else if(event.getTreeNode().getType().equals("country")){
+      		 this.currentCountry=((Country)event.getTreeNode().getData()).getId();
+       	}else if(event.getTreeNode().getData() instanceof Facility){
     		this.currentFacility=(Facility) event.getTreeNode().getData();
     		if(this.currentFacility.getCapacity()==null)this.currentFacility.setCapacity(new Capacity());
     		if(this.currentFacility.getService()==null)this.currentFacility.setService(new Service());
@@ -147,7 +151,7 @@ public class HomeBean implements Serializable {
             }
             else {
             	LOGGER.debug("Unkown type : " + data);
-                node.addNode(new DefaultMindmapNode("Inconnu", "Inconnu", "290cab",false));
+                //node.addNode(new DefaultMindmapNode("Inconnu", "Inconnu", "290cab",false));
             }
         }
         
@@ -174,6 +178,11 @@ public class HomeBean implements Serializable {
         }
     }
     
+    public void syncTree(ActionEvent x){
+    	this.treeRoot=null;
+    	this.prepareTree();
+    }
+    
     private List<Country> getCountries() {
 		if(countries==null){
 			countries=cdao.getCountries();
@@ -192,19 +201,16 @@ public class HomeBean implements Serializable {
 	}
 
 	public void findCitiesOfCountry(AjaxBehaviorEvent e){
-		try{
-			Country cc = new Country();
-			//if(currentFacility.getCountry()!=null&&currentFacility.getCountry().length()>2)
+		Country cc = new Country();
+			if(currentFacility.getCountry()!=null&&currentFacility.getCountry().length()>0){
 				cc.setId(this.getMapCountries().get(currentFacility.getCountry()).getId());
-			int index=cdao.getCountries().indexOf(cc);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Current country : "+index+" " + currentFacility.getCountry()));
-			Country c = cdao.getCountries().get(index<0?0:index);
-			if(c!=null){
-				cities = c.getCities();
-			}
-		}catch(Exception c){
-			c.printStackTrace();
-		}
+				int index=cdao.getCountries().indexOf(cc);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Current country : "+index+" " + currentFacility.getCountry()));
+				Country c = cdao.getCountries().get(index<0?0:index);
+				if(c!=null){
+					cities = c.getCities();
+				}
+			}	
 	}
 	
 	private TreeNode treeRoot=null;
@@ -224,11 +230,11 @@ public class HomeBean implements Serializable {
 	    			TreeNode doc2=null;
 	            	 for(Facility f: list){
 	            		 if(i==0){
-	 	    				doc1 = new DefaultTreeNode("country",new Doc(country.getName()), treeRoot);
+	 	    				doc1 = new DefaultTreeNode("country",country, treeRoot);
 	 	    				i++;
 	 	    			}
 	            		 if(j==0){
-	            			 doc2 = new DefaultTreeNode("city",new Doc(city.getName()), doc1);
+	            			 doc2 = new DefaultTreeNode("city",city, doc1);
 	            			 j++;
 	            		 }
 	            		 LOGGER.debug("FACILITY : " +country.getName()+ " " + f.getName());
@@ -274,14 +280,9 @@ public class HomeBean implements Serializable {
 	}
 
     public void displaySelectedFacility(){
-    	this.showMapMind=false;
     	this.findCitiesOfCountry(null); 
     }
     
-    public void activMindMap(){
-    	this.showMapMind=true;
-    }
-	 
 	public TreeNode getTreeRoot() {
 			return treeRoot;
 	}
@@ -296,6 +297,22 @@ public class HomeBean implements Serializable {
 
 	public Collection<City> getCities() {
 		return cities;
+	}
+
+	public Integer getCurrentCity() {
+		return currentCity;
+	}
+
+	public String getCurrentCountry() {
+		return currentCountry;
+	}
+
+	public List<Facility> getFilteredFacilites() {
+		return filteredFacilites;
+	}
+
+	public void setFilteredFacilites(List<Facility> filteredFacilites) {
+		this.filteredFacilites = filteredFacilites;
 	}
 	 
 	 

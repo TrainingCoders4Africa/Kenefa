@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+  
+        <p:dataTable var="facility" value="#{homeBean.facilities}"  rowKey="#{facility.id}" paginator="true" rows="10"  
+                selection="#{homeBean.currentFacility}" selectionMode="single" filteredValue="#{homeBean.filteredFacilites}" id="facilitiesTable">  
+        <p:ajax event="rowSelect" immediate="true" update=":formFacility:display" oncomplete="facilityDialog.show()" />  
+
+        <p:column headerText="Name" sortBy="#{facility.name}" filterBy="#{facility.name}" id="name">  
+            #{facility.name}  
+        </p:column> 
+        
+        <p:column headerText="Longitude" sortBy="#{facility.longitude}" filterBy="#{facility.longitude}" id="longitude">  
+            #{facility.longitude}  
+        </p:column>  
+        
+        <p:column headerText="Latitude" sortBy="#{facility.latitude}" filterBy="#{facility.latitude}" id="latitude">  
+            #{facility.latitude}  
+        </p:column>   
+  
+        <p:column headerText="Description" sortBy="#{facility.description}" filterBy="#{facility.description}" id="dscrip">  
+            #{facility.description}  
+        </p:column>  
+  
+        <p:column headerText="Country" sortBy="#{facility.country}" filterBy="#{facility.country}" id="country">  
+            #{facility.country}  
+        </p:column>  
+  
+        <p:column headerText="City" sortBy="#{facility.cityName}" filterBy="#{facility.cityName}" id="city">  
+            #{facility.cityName}
+        </p:column>
+          
+        <p:column headerText="Address" sortBy="#{facility.address}" filterBy="#{facility.address}" id="adr">  
+            #{facility.address}"  
+        </p:column>  
+        
+		<p:column headerText="Birth" sortBy="#{facility.birth}" filterBy="#{facility.birth}" id="birth">  
+            #{facility.birth}"  
+        </p:column>  
+        
+  
+    </p:dataTable>  
+    
+    <h:panelGrid columns="2">  
+    <p:panel header="Export All Data">  
+        <h:commandLink >  
+            <p:graphicImage value="/admin/images/excel.png" />  
+            <p:dataExporter type="xls" target="facilitiesTable" fileName="facilities" />  
+        </h:commandLink>  
+        <h:commandLink>  
+            <p:graphicImage value="/admin/images/pdf.png" />  
+            <p:dataExporter type="pdf" target="facilitiesTable" fileName="facilities"/>  
+        </h:commandLink>  
+          
+        <h:commandLink>  
+            <p:graphicImage value="/admin/images/csv.png" />  
+            <p:dataExporter type="csv" target="facilitiesTable" fileName="facilities" />  
+        </h:commandLink>  
+          
+        <h:commandLink immediate="true">  
+            <p:graphicImage value="/admin/images/xml.png" />  
+            <p:dataExporter type="xml" target="facilitiesTable" fileName="facilities" />  
+        </h:commandLink>  
+    </p:panel>  
+      
+    <p:panel header="Export Page Data">  
+        <h:commandLink >  
+            <p:graphicImage value="/admin/images/excel.png" />  
+            <p:dataExporter type="xls" target="facilitiesTable" fileName="facilities" pageOnly="true"/>  
+        </h:commandLink>  
+  
+        <h:commandLink >  
+            <p:graphicImage value="/admin/images/pdf.png" />  
+            <p:dataExporter type="pdf" target="facilitiesTable" fileName="facilities" pageOnly="true"/>  
+        </h:commandLink>  
+          
+        <h:commandLink >  
+            <p:graphicImage value="/admin/images/csv.png" />  
+            <p:dataExporter type="csv" target="facilitiesTable" fileName="facilities" pageOnly="true"/>  
+        </h:commandLink>  
+          
+        <h:commandLink >  
+            <p:graphicImage value="/admin/images/xml.png" />  
+            <p:dataExporter type="xml" target="facilitiesTable" fileName="facilities" pageOnly="true"/>  
+        </h:commandLink>  
+    </p:panel>  
+  </h:panelGrid> 
+  
+    <p:dialog header="Facility Detail" widgetVar="facilityDialog" modal="true" showEffect="explode" hideEffect="explode">  
+        <h:panelGrid id="display" columns="1">  
+  			<ui:include src="facility-form-details.xhtml" />
+        </h:panelGrid>  
+    </p:dialog>  
+  
+</ui:composition>

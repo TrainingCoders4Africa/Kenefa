@@ -7,9 +7,10 @@
 	<!--img
 			src="#{request.contextPath}/admin/images/logo/#{homeBean.currentFacility.country}.gif"
 			alt="#{homeBean.currentFacility.country}" /-->
+		
 	<h:panelGrid columns="6" cellpadding="10" id="panelFacilit">
 		<h:outputLabel value="Name" for="name" />
-		<p:inputText id="name" value="#{homeBean.currentFacility.name}" label="Facility name" required="true"/>
+		<p:keyboard id="name" value="#{homeBean.currentFacility.name}" label="Facility name" required="true"/>
 		<h:outputText value="Description" /><p:inputTextarea value="#{homeBean.currentFacility.description}" rows="3" cols="25"/>
 		<h:outputText value="" /><h:outputText value="" />
 		<h:outputText value="Creation date" />
@@ -27,6 +28,7 @@
 			<f:selectItem itemLabel="select one" itemValue="" />
 			<f:selectItem itemLabel="PUBLIC" itemValue="PUBLIC" />
 			<f:selectItem itemLabel="PRIVATE" itemValue="PRIVATE" />
+			<f:selectItem itemLabel="BOTH" itemValue="BOTH" />
 		</p:selectOneMenu>
 		<h:outputText value="Opening hours" />
 		<p:inputText value="#{homeBean.currentFacility.openingHours}" />
@@ -38,14 +40,14 @@
 		<p:inputText value="#{homeBean.currentFacility.phone}" />
 		<h:outputLabel value="Country" for="country"/>
 		<h:panelGroup>
-			<p:selectOneMenu id="country"  value="#{homeBean.currentFacility.country}" label="Facility Country" required="true"  effect="fold" editable="false">
+			<p:selectOneMenu id="country"  value="#{homeBean.currentFacility.country}" style="width:170px" label="Facility Country" required="true"  effect="fold" editable="false">
 				<f:selectItem itemLabel="select one" itemValue="" />
 				<f:selectItems value="#{cacheBean.countries}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
-				<p:ajax event="change" listener="#{homeBean.findCitiesOfCountry}" update="cityOfCountry messages"/>
+				<p:ajax event="change" listener="#{homeBean.findCitiesOfCountry}" update="cityOfCountry"/>
 			</p:selectOneMenu>
 		</h:panelGroup>
 		<h:outputText value="City" />
-		<p:selectOneMenu id="cityOfCountry" value="#{homeBean.currentFacility.city}" effect="fold" editable="false">
+		<p:selectOneMenu id="cityOfCountry" value="#{homeBean.currentFacility.city}" style="width:170px" effect="fold" editable="false">
 			<f:selectItem itemLabel="select city" itemValue=""/>
 			<f:selectItems value="#{homeBean.cities}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
 		</p:selectOneMenu>
@@ -77,6 +79,22 @@
 	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.emergencyCare}" onLabel="YES" offLabel="NO"/>
 	 		 	<h:outputText value="Inpatient" />
 	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.inpatient}" onLabel="YES" offLabel="NO"/>
+	 		 </h:panelGrid>
+	 	</p:tab>
+	 	<p:tab id="tab3" title="Rating"> 
+	 		 <h:panelGrid columns="6" cellpadding="10">
+	 		 	<h:outputText value="Overall" />
+	 		 	<p:rating value="#{homeBean.currentFacility.rating.overall}"/>
+	 		 	<h:outputText value="Training" />
+	 		 	<p:rating value="#{homeBean.currentFacility.rating.training}"/>
+	 		 	<h:outputText value="Knowledge" />
+	 		 	<p:rating value="#{homeBean.currentFacility.rating.knowledge}"/>
+	 		 	<h:outputText value="cleanliness" />
+	 		 	<p:rating value="#{homeBean.currentFacility.rating.cleanliness}"/>
+	 		 	<h:outputText value="Equipment State" />
+	 		 	<p:rating value="#{homeBean.currentFacility.rating.equipmentState}"/>
+	 		 	<h:outputText value="Building State" />
+	 		 	<p:rating value="#{homeBean.currentFacility.rating.buildingState}" /> 
 	 		 </h:panelGrid>
 	 	</p:tab>
 	 </p:tabView>

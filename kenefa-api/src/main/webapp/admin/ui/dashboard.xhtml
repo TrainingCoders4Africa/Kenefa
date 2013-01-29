@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/ui.xhtml">
+    
+    <ui:define name="head">
+        <style type="text/css">
+		.ui-confirm-dialog-severity {
+			margin: 0 7px 7px 0;
+		}
+        </style>
+    </ui:define>
+
+    <ui:define name="sidebar">
+    		<ui:include src="tree.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+	
+		<h:form id="formFacility">  
+		  <p:accordionPanel id="tabView">  
+			<p:tab id="tabChart1" title="DashBoard (1)">
+				<p:barChart id="basic" value="#{chartBean.categoryModel}" legendPosition="ne"  
+	            	title="Capacity for 5 Bottom Facilities" min="0" max="200" style="height:230px"/>  
+				<p:barChart id="horizontal" value="#{chartBean.categoryTopFacilitiz}" legendPosition="se" style="height:230px"  
+	            	title="Capacity for 5 Top Facilities" orientation="horizontal" min="0" max="200"/>  
+            </p:tab>
+            <p:tab id="tabChart2" title="DashBoard(2)">
+              <h:panelGrid columns="2">
+            	<p:pieChart id="pieChartDoctor" value="#{chartBean.pieModelTypeFacility}" legendPosition="w"  
+                	title="Facility types" style="width:400px;height:300px" />
+                <p:pieChart id="pieChartBed" value="#{chartBean.pieModelBed}" legendPosition="w"  
+                	title="Number of Beds" style="width:400px;height:300px" />
+               </h:panelGrid>
+            </p:tab>
+            <p:tab id="tabChart3" title="DashBoard(3)">
+              <h:panelGrid columns="2">
+            	<p:pieChart id="pieChartOther" value="#{chartBean.pieModelTypeFacility}" legendPosition="w"  
+                	title="Facility types" style="width:400px;height:300px" />
+                <p:barChart id="chart3Topfacility" value="#{chartBean.categoryTopFacilitiz}" legendPosition="se" style="height:250px"  
+	            	title="Capacity for 5 Top Facilities" orientation="horizontal" min="0" max="200"/> 
+               </h:panelGrid>
+            </p:tab>
+            </p:accordionPanel>
+		  
+		</h:form> 
+
+	</ui:define>
+</ui:composition>
