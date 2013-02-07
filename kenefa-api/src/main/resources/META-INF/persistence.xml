@@ -34,6 +34,7 @@
         <class>c4a.kenefa.api.model.Country</class>
         <class>c4a.kenefa.api.model.TypeFacility</class>
         <class>c4a.kenefa.api.model.embedded.City</class>
+        <class>c4a.kenefa.api.model.User</class>
         <properties>
     <property name="jboss.as.jpa.providerModule" value="org.datanucleus" />
             <property name="datanucleus.ConnectionURL" value="mongodb:localhost/kenefa-api"/>

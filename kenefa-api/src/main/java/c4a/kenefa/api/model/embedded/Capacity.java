@@ -10,11 +10,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Capacity {
 
-	private int bed;
-	private int doctor;
-	private int nurse;
+	private Integer bed=0;
+	private Integer doctor=0;
+	private Integer nurse=0;
 	
-	public Capacity(int bed, int doctor, int nurse) {
+	public Capacity(Integer bed, Integer doctor, Integer nurse) {
 		super();
 		this.bed = bed;
 		this.doctor = doctor;
@@ -23,22 +23,22 @@ public class Capacity {
 	public Capacity() {
 		super();
 	}
-	public int getBed() {
+	public Integer getBed() {
 		return bed;
 	}
-	public void setBed(int bed) {
+	public void setBed(Integer bed) {
 		this.bed = bed;
 	}
-	public int getDoctor() {
+	public Integer getDoctor() {
 		return doctor;
 	}
-	public void setDoctor(int doctor) {
+	public void setDoctor(Integer doctor) {
 		this.doctor = doctor;
 	}
-	public int getNurse() {
+	public Integer getNurse() {
 		return nurse;
 	}
-	public void setNurse(int nurse) {
+	public void setNurse(Integer nurse) {
 		this.nurse = nurse;
 	}
 }

@@ -1,5 +1,6 @@
 package c4a.kenefa.api.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,8 @@ public class CountryFull extends Country{
 //	private String description;
 	//@XmlElement
 	//@XmlTransient
-	Map<String, Long> statistics;	
+	Map<String, Long> statistics=new HashMap<String, Long>();	
+	Map<String, Long> statScope=new HashMap<String, Long>();
 	//@XmlElement
 //	@XmlTransient
 //	private Map<String, String> topFacilities= new HashMap<String, String>();
@@ -147,5 +149,13 @@ public class CountryFull extends Country{
 				country+"' ORDER BY f.rating.overall " + sens;
 				Query query = dao.getEm().createQuery(qstr);
 		return query.setMaxResults(number).getResultList();
+	}
+
+	public Map<String, Long> getStatScope() {
+		return statScope;
+	}
+
+	public void setStatScope(Map<String, Long> statScope) {
+		this.statScope = statScope;
 	}
 }

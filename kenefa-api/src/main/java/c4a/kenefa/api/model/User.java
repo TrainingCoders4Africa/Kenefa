@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,7 +21,10 @@ public class User implements Serializable{
 	private String login;
 	//@Column(nullable=false)
 	private String pwd;
+	//@Column(nullable=false)
 	private String profil;
+	@Transient
+	private String pwdConfirm;
 	
 	
 	public User(String login, String pwd, String profil) {
@@ -50,6 +54,12 @@ public class User implements Serializable{
 	}
 	public void setProfil(String profil) {
 		this.profil = profil;
+	}
+	public String getPwdConfirm() {
+		return pwdConfirm;
+	}
+	public void setPwdConfirm(String pwdConfirm) {
+		this.pwdConfirm = pwdConfirm;
 	}
 	
 }

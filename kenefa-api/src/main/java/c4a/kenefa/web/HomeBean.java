@@ -253,7 +253,9 @@ public class HomeBean implements Serializable {
 	 
 	 public void removeFacility(ActionEvent e){
 		 fdao.removeFacility(currentFacility.getId());
-		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("FAcility removed in success !!!!"));
+		 this.treeRoot=null;
+		 this.prepareTree();
+		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Facility removed in success !!!!"));
 	 }
 	 
 	public void saveFacility(ActionEvent e){
@@ -275,8 +277,10 @@ public class HomeBean implements Serializable {
 		if(currentFacility.getId()!=null)
 			fdao.updateFacility(currentFacility.getId(), currentFacility);
 		else fdao.getDao().persist(currentFacility);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operation done in success !!!!"));
+		this.treeRoot=null;
+		this.prepareTree();
 		currentFacility = new Facility(new Capacity(), new Service(), new Rating());
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Operation done in success !!!!"));
 	}
 
     public void displaySelectedFacility(){

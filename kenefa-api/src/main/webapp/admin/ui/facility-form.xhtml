@@ -1,102 +1,26 @@
-
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-	<!--img
-			src="#{request.contextPath}/admin/images/logo/#{homeBean.currentFacility.country}.gif"
-			alt="#{homeBean.currentFacility.country}" /-->
-		
-	<h:panelGrid columns="6" cellpadding="10" id="panelFacilit">
-		<h:outputLabel value="Name" for="name" />
-		<p:keyboard id="name" value="#{homeBean.currentFacility.name}" label="Facility name" required="true"/>
-		<h:outputText value="Description" /><p:inputTextarea value="#{homeBean.currentFacility.description}" rows="3" cols="25"/>
-		<h:outputText value="" /><h:outputText value="" />
-		<h:outputText value="Creation date" />
-		<p:calendar value="#{homeBean.currentFacility.birth}" />
-		<h:outputLabel value="Type" for="type"/>
-		<p:selectOneMenu id="type" value="#{homeBean.currentFacility.type}" label="Facility Type" required="true" effect="fold" editable="true">
-			<f:selectItem itemLabel="select one" itemValue="" />
-			<f:selectItem itemLabel="Hospital" itemValue="Hospital" />
-			<f:selectItem itemLabel="Clinic" itemValue="Clinic" />
-			<f:selectItem itemLabel="Pharmacy" itemValue="Pharmacy" />
-			<f:selectItem itemLabel="Health Center" itemValue="Health Center" />
-		</p:selectOneMenu>
-		<h:outputLabel value="Scope" for="scope" />
-		<p:selectOneMenu id="scope" value="#{homeBean.currentFacility.scope}" label="Facility scope" required="true" effect="fold" editable="false">
-			<f:selectItem itemLabel="select one" itemValue="" />
-			<f:selectItem itemLabel="PUBLIC" itemValue="PUBLIC" />
-			<f:selectItem itemLabel="PRIVATE" itemValue="PRIVATE" />
-			<f:selectItem itemLabel="BOTH" itemValue="BOTH" />
-		</p:selectOneMenu>
-		<h:outputText value="Opening hours" />
-		<p:inputText value="#{homeBean.currentFacility.openingHours}" />
-		<h:outputText value="Website" />
-		<p:inputText value="#{homeBean.currentFacility.url}" />
-		<h:outputText value="Adress" />
-		<p:inputText value="#{homeBean.currentFacility.address}" />
-		<h:outputText value="Phone" />
-		<p:inputText value="#{homeBean.currentFacility.phone}" />
-		<h:outputLabel value="Country" for="country"/>
-		<h:panelGroup>
-			<p:selectOneMenu id="country"  value="#{homeBean.currentFacility.country}" style="width:170px" label="Facility Country" required="true"  effect="fold" editable="false">
-				<f:selectItem itemLabel="select one" itemValue="" />
-				<f:selectItems value="#{cacheBean.countries}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
-				<p:ajax event="change" listener="#{homeBean.findCitiesOfCountry}" update="cityOfCountry"/>
-			</p:selectOneMenu>
-		</h:panelGroup>
-		<h:outputText value="City" />
-		<p:selectOneMenu id="cityOfCountry" value="#{homeBean.currentFacility.city}" style="width:170px" effect="fold" editable="false">
-			<f:selectItem itemLabel="select city" itemValue=""/>
-			<f:selectItems value="#{homeBean.cities}" var="c" itemLabel="#{c.name}" itemValue="#{c.id}"/>
-		</p:selectOneMenu>
-		<h:outputText value="Latitude" />
-		<p:inputText value="#{homeBean.currentFacility.latitude}" />
-		<h:outputText value="Longitude" />
-		<p:inputText value="#{homeBean.currentFacility.longitude}" />
-	</h:panelGrid>
-	<p:tabView id="tabViewCarac">  
-	    <p:tab id="tab1" title="Capacity"> 
-	 		 <h:panelGrid columns="4" cellpadding="10">
-	 		 	<h:outputText value="Number of doctors" />
-	 		 	<p:spinner value="#{homeBean.currentFacility.capacity.doctor}" min="1" max="100"/>
-	 		 	<h:outputText value="Number of nurse" />
-	 		 	<p:spinner value="#{homeBean.currentFacility.capacity.nurse}" min="1" max="500"/>
-	 		 	<h:outputText value="Number of beds" />
-	 		 	<p:spinner value="#{homeBean.currentFacility.capacity.bed}" min="1" />
-	 		 </h:panelGrid>
-	 	</p:tab>
-	 	<p:tab id="tab2" title="Service"> 
-	 		 <h:panelGrid columns="6" cellpadding="10">
-	 		 	<h:outputText value="Pediatric" />
-	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.pediatric}" onLabel="YES" offLabel="NO"/>
-	 		 	<h:outputText value="Radiology" />
-	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.radiology}" onLabel="YES" offLabel="NO"/>
-	 		 	<h:outputText value="Pharmacy" />
-	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.pharmacy}" onLabel="YES" offLabel="NO"/>
-	 		 	<h:outputText value="Emergency Care" />
-	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.emergencyCare}" onLabel="YES" offLabel="NO"/>
-	 		 	<h:outputText value="Inpatient" />
-	 		 	<p:selectBooleanButton value="#{homeBean.currentFacility.service.inpatient}" onLabel="YES" offLabel="NO"/>
-	 		 </h:panelGrid>
-	 	</p:tab>
-	 	<p:tab id="tab3" title="Rating"> 
-	 		 <h:panelGrid columns="6" cellpadding="10">
-	 		 	<h:outputText value="Overall" />
-	 		 	<p:rating value="#{homeBean.currentFacility.rating.overall}"/>
-	 		 	<h:outputText value="Training" />
-	 		 	<p:rating value="#{homeBean.currentFacility.rating.training}"/>
-	 		 	<h:outputText value="Knowledge" />
-	 		 	<p:rating value="#{homeBean.currentFacility.rating.knowledge}"/>
-	 		 	<h:outputText value="cleanliness" />
-	 		 	<p:rating value="#{homeBean.currentFacility.rating.cleanliness}"/>
-	 		 	<h:outputText value="Equipment State" />
-	 		 	<p:rating value="#{homeBean.currentFacility.rating.equipmentState}"/>
-	 		 	<h:outputText value="Building State" />
-	 		 	<p:rating value="#{homeBean.currentFacility.rating.buildingState}" /> 
-	 		 </h:panelGrid>
-	 	</p:tab>
-	 </p:tabView>
-	 
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/ui.xhtml">
+    
+    <ui:define name="head">
+        <style type="text/css">
+		.ui-confirm-dialog-severity {
+			margin: 0 7px 7px 0;
+		}
+        </style>
+    </ui:define>
+
+    <ui:define name="sidebar">
+    		<p:panel header="API's Admin!!!" style="height:557px">
+    			<h3><em>Kenefa</em></h3> stands for health in Bambara a largely spoken African language in West Africa.<br/>
+    		</p:panel>
+	</ui:define>
+
+	<ui:define name="content">
+	<ui:include src="create-facility.xhtml" />
+	<p:rating value="#{homeBean.currentFacility.rating.overall}"/>
+	 </ui:define>
 </ui:composition>

@@ -4,21 +4,18 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	<!--img
-			src="#{request.contextPath}/admin/images/logo/#{homeBean.currentFacility.country}.gif"
-			alt="#{homeBean.currentFacility.country}" /-->
 		
 	<h:panelGrid columns="6" cellpadding="10" id="panelFacilit">
 		<h:outputLabel value="Name" for="name" />
-		<p:inputText disabled="true" id="name" value="#{homeBean.currentFacility.name}" label="Facility name" required="true"/>
+		<p:inputText disabled="true" id="name" value="#{homeBean.currentFacility.name}" label="Facility name"/>
 		<h:outputText value="Description" /><p:inputTextarea disabled="true" value="#{homeBean.currentFacility.description}" rows="3" cols="25"/>
 		<h:outputText value="" /><h:outputText value="" />
 		<h:outputText value="Creation date" />
 		<p:inputText disabled="true"  value="#{homeBean.currentFacility.birth}" />
 		<h:outputLabel value="Type" for="type"/>
-		<p:inputText disabled="true"  id="type" value="#{homeBean.currentFacility.type}" label="Facility Type" required="true" effect="fold" editable="true"/>
+		<p:inputText disabled="true"  id="type" value="#{homeBean.currentFacility.type}" label="Facility Type"  effect="fold" editable="true"/>
 		<h:outputLabel value="Scope" for="scope" />
-		<p:inputText disabled="true" id="scope" value="#{homeBean.currentFacility.scope}" label="Facility scope" required="true" effect="fold" editable="false"/>
+		<p:inputText disabled="true" id="scope" value="#{homeBean.currentFacility.scope}" label="Facility scope"  effect="fold" editable="false"/>
 		<h:outputText value="Opening hours" />
 		<p:inputText disabled="true"  value="#{homeBean.currentFacility.openingHours}" />
 		<h:outputText value="Website" />
@@ -29,7 +26,7 @@
 		<p:inputText disabled="true"  value="#{homeBean.currentFacility.phone}" />
 		<h:outputLabel value="Country" for="country"/>
 		<h:panelGroup>
-			<p:inputText disabled="true"  id="country"  value="#{homeBean.currentFacility.country}" style="width:170px" label="Facility Country" required="true"  effect="fold" editable="false"/>
+			<p:inputText disabled="true"  id="country"  value="#{homeBean.currentFacility.country}" style="width:170px" label="Facility Country"   effect="fold" editable="false"/>
 		</h:panelGroup>
 		<h:outputText value="City" />
 		<p:inputText disabled="true"  id="cityOfCountry" value="#{homeBean.currentFacility.city}" style="width:170px" effect="fold" editable="false"/>

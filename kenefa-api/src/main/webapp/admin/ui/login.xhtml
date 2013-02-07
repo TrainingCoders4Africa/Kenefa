@@ -14,12 +14,26 @@
     </ui:define>
 
     <ui:define name="sidebar">
-    		
+    		<p:spacer width="300px"/>
 	</ui:define>
 
-	<ui:define name="content">
-		<h:form id="formAdministration">
+	<ui:define name="login">
+		<p:spacer height="150px"/><br/>
+		<center>
+		<p:panel header="Connexion!" style="width:400px;" >
+		<h:form id="formLogin">
 			<p:growl id="messages" showDetail="true"/>
+			<p:outputLabel value="#{loginBean.message}" style="font-color:red;font-size:13px"/>
+			<h:panelGrid columns="2">
+			<h:outputLabel value="Username" />
+			<p:inputText value="#{loginBean.user.login}" label="Username" required="true"/>
+			<h:outputLabel value="Password" />
+			<p:password value="#{loginBean.user.pwd}" label="Password" required="true"/>
+			</h:panelGrid>
+			<p:commandButton action="#{loginBean.login}" value="Login" update="@form"/>
 		</h:form> 
+		</p:panel>
+		</center>
+		<p:spacer height="150px"/><br/>
 	</ui:define>
 </ui:composition>

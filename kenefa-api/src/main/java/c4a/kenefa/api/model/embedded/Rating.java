@@ -12,22 +12,22 @@ public class Rating {
 	/**
 	 * overall quality
 	 */
-	private int overall = -1;
-	private int training = -1;
-	private int knowledge = -1;
+	private int overall = 0;
+	private int training = 0;
+	private int knowledge = 0;
 	/**
 	 * attitude of staff
 	 */
-	private int staff = -1;
-	private int cleanliness = -1;
+	private int staff = 0;
+	private int cleanliness = 0;
 	/**
 	 * state of repair/disrepair of building
 	 */
-	private int buildingState = -1;
+	private int buildingState = 0;
 	/**
 	 * state of repair/disrepair of equipment
 	 */
-	private int equipmentState = -1;
+	private int equipmentState = 0;
 	
 	public Rating(int overall, int training, int knowledge, int staff,
 			int cleanliness, int buildingState, int equipmentState) {

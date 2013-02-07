@@ -32,48 +32,69 @@
 		<div id="header" class="ui-widget ui-widget-header">
 			<div id="logo">
 			<a href="#{request.contextPath}/faces/admin/ui/home.xhtml">
-				<img src="#{request.contextPath}/admin/images/logo.png" alt="Logo"/>
+				<img src="#{request.contextPath}/admin/images/logo.png" height="50" alt="Logo"/>
 			</a>
 			</div>
 			<div id="menu" class="ui-widget">
                 <ul id="main">
-                    <li class="current_page_item"><a href="#{request.contextPath}/faces/admin/ui/home.xhtml" style="background:url('../img-menu/home.png') no-repeat center left;">Home</a></li>
-                    <li><a href="#{request.contextPath}/faces/admin/ui/facility.xhtml" style="background:url('../img-menu/mapMind.png') no-repeat center left;">Facilities</a></li>
-                    <li><a href="#{request.contextPath}/faces/admin/ui/dashboard.xhtml" style="background:url('../img-menu/dashboard.png') no-repeat center left">Dashboard</a></li>
-                    <li class="current_page_item"><a href="#{request.contextPath}/faces/admin/ui/admin.xhtml" style="background:url('../img-menu/admin.png') no-repeat center left;">Admin</a></li>
+                    <li class="current_page_item"><a href="#{request.contextPath}/faces/admin/ui/home.xhtml" style="background:url('../img-menu/home.png') no-repeat center left;display: #{not loginBean.logged?'none':''}">Home</a></li>
+                    <li><a href="#{request.contextPath}/faces/admin/ui/facility.xhtml" style="background:url('../img-menu/mapMind.png') no-repeat center left;display: #{not loginBean.logged?'none':''}">Facilities</a></li>
+                    <li><a href="#{request.contextPath}/faces/admin/ui/dashboard.xhtml" style="background:url('../img-menu/dashboard.png') no-repeat center left;display: #{not loginBean.logged?'none':''}">Dashboard</a></li>
+                    <li class="current_page_item"><a href="#{request.contextPath}/faces/admin/ui/admin.xhtml" style="background:url('../img-menu/admin.png') no-repeat center left;display: #{not loginBean.logged?'none':''}">Admin</a></li>
                 </ul>
             </div>
             
             <div id="globalthemeswitcher">
                 <h:form>
-                    <p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:175px;" effect="fade" var="t">
+                	<p:commandLink value="Login" action="/admin/ui/login.xhtml" rendered="#{!loginBean.logged}"/>
+                	<p:commandLink value="Logout" action="#{loginBean.logout}" rendered="#{loginBean.logged}"/>
+                    <!--p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:175px;" effect="fade" var="t">
                         <f:selectItem itemLabel="Choose Theme" itemValue="" />
                         <f:selectItems value="#{themeSwitcherBean.advancedThemes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
-                        <p:ajax listener="#{themeSwitcherBean.saveTheme}" />
-                        
+                        <p:ajax listener="#{themeSwitcherBeansaveTheme}" />
                         <p:column>
                             <h:graphicImage  value="/admin/images/themes/#{t.image}" />
                         </p:column>
-                        
                         <p:column>
                             #{t.name}
                         </p:column>
-                    </p:themeSwitcher>
+                    </p:themeSwitcher-->
                 </h:form>
             </div>
 		</div>
 		
         <div id="page" class="ui-widget">
-                <div id="sidebar">
+                <div id="sidebar" style="display: #{not loginBean.logged?'none':''}">
                     <ui:insert name="sidebar">
                        
                     </ui:insert>
                 </div>        
                   
             <div id="content">
-                <div class="post">
+                <div class="post" style="display: #{not loginBean.logged?'none':''}">
                     <ui:insert name="content">
                     
+                    </ui:insert>
+                </div>
+                <div class="post" style="display: #{loginBean.logged?'none':''}">
+                    <ui:insert name="login">
+				        <p:spacer height="150px"/><br/>
+						<center>
+						<p:panel header="Connexion!" style="width:400px;" >
+						<h:form id="formLogin">
+							<p:growl id="messages" showDetail="true"/>
+							<p:outputLabel value="#{loginBean.message}" style="font-color:red;font-size:13px"/>
+							<h:panelGrid columns="2">
+							<h:outputLabel value="Username" />
+							<p:inputText value="#{loginBean.user.login}" label="Username" required="true"/>
+							<h:outputLabel value="Password" />
+							<p:password value="#{loginBean.user.pwd}" label="Password" required="true"/>
+							</h:panelGrid>
+							<p:commandButton action="#{loginBean.login}" value="Login" update="@form"/>
+						</h:form> 
+						</p:panel>
+						</center>
+						<p:spacer height="150px"/><br/>
                     </ui:insert>
                 </div>
             </div>

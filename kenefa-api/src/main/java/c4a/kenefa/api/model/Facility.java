@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -72,7 +73,13 @@ public class Facility implements Serializable{
 	@Embedded
 	private Pharmacy pharmacy = null;
 	*/
-	
+	/**
+	 * Allow to differentiate objects (country, city and facity) in the UI TreeTable (Backoffice)
+	 * TODO Duplicate code in the three class, can be avoided by in a super abstract class
+	 * @return
+	 */
+	@Transient
+	private String uiType=null;
 	
 
 	public Facility(String name, String address, String phone, String scope,
@@ -339,6 +346,14 @@ public class Facility implements Serializable{
 
 	public void setImg(String img) {
 		this.img = img;
+	}
+
+	public String getUiType() {
+		return "facility";
+	}
+
+	public void setUiType(String uiType) {
+		this.uiType = uiType;
 	}
 
 }

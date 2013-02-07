@@ -2,6 +2,7 @@ package c4a.kenefa.api.model.embedded;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,6 +16,13 @@ public class City {
 	protected String name = null;
 	protected Double longitude = null;
 	protected Double latitude = null;
+	/**
+	 * Allow to differentiate objects (country, city and facity) in the UI TreeTable (Backoffice)
+	 * TODO Duplicate code in the three class, can be avoided by in a super abstract class
+	 * @return
+	 */
+	@Transient
+	private String uiType=null;
 	
 	public City() {
 		super();
@@ -29,7 +37,8 @@ public class City {
 		super();
 		this.id = id;
 	}
-
+	
+	
 	// getters and setters
 	@Column(name="name")
 	public String getName() {
@@ -91,5 +100,13 @@ public class City {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getUiType() {
+		return "city";
+	}
+
+	public void setUiType(String uiType) {
+		this.uiType = uiType;
 	}
 }

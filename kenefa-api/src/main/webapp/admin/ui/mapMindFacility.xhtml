@@ -14,31 +14,31 @@
     </ui:define>
 
     <ui:define name="sidebar">
-    	<p:panel closable="true" >
-			<ui:include src="tree.xhtml" />
-		</p:panel>
+    	<p:panel header="Kenefa-MindMap" style="width:99%;height:557px">
+    			You can make some statistics by country, city and facility's capacity, etc.
+    	</p:panel>
 	</ui:define>
 
 	<ui:define name="content">
 	
-		<h:form id="formFacility">  
+		  
 		<p:growl id="messages" showDetail="true"/>
 		  
-		  <p:tabView id="tabViewChart"> 
-		  	 <p:tab id="panelKenefa" title="MapMind">  
+		  <p:tabView id="tabMindMap"> 
+		  	 <p:tab id="panelKenefa" title="MindMap"> 
+		  	 <h:form id="formMap"> 
 			    <p:mindmap  value="#{homeBean.root}" style="width:99%;height:500px;border:1px solid black;">  
 			        <p:ajax event="select" listener="#{homeBean.onNodeSelect}" />  
-			        <p:ajax event="dblselect" listener="#{homeBean.onNodeDblselect}" update=":formFacility:display" oncomplete="facilityDialog.show()"/>  
-			    </p:mindmap>  
+			        <p:ajax event="dblselect" listener="#{homeBean.onNodeDblselect}" update=":display" oncomplete="facilityDialog.show()"/>  
+			    </p:mindmap> 
+			  </h:form> 
 			</p:tab>
 		  	<p:tab id="tabAllFacilitiz" title="Facilities" >
-		  		<!--ui:include src="facility-all.xhtml" /-->
+		  		<h:form>
 		  		<p:scrollPanel style="width:99%;">
 		  			<ui:include src="all-facility-complex.xhtml" />
 		  		</p:scrollPanel>
-		  	</p:tab> 
-		  	<p:tab id="tabAllServicz" title="Services">
-		  		Sorry, Feature not yet implemented!!!!
+		  		</h:form>
 		  	</p:tab> 
           </p:tabView>
 		  
@@ -48,11 +48,6 @@
 	  			<ui:include src="facility-form-details.xhtml" />
 	        </h:panelGrid>  
 	    </p:dialog> 
-	   
-	   <!--p:dialog id="idFacilityAll" widgetVar="facilityAll" header="All facilities"  modal="true" showEffect="fade" hideEffect="fade">
-		    	<ui:include src="facility-all.xhtml" />
-	   </p:dialog-->
-		</h:form> 
 
 	</ui:define>
 </ui:composition>

@@ -14,12 +14,39 @@
     </ui:define>
 
     <ui:define name="sidebar">
-    		
+    		<p:panel header="API's Admin!!!" style="height:557px">
+    			<h3><em>Kenefa</em></h3> stands for health in Bambara a largely spoken African language in West Africa.<br/>
+    		</p:panel>
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="formAdministration">
-			<p:growl id="messages" showDetail="true"/>
-		</h:form> 
+	<p:growl id="messages" showDetail="true"/>
+		<p:panel header="Kenefa admin"></p:panel>
+			<p:accordionPanel>
+				<p:tab title="User">
+					<h:form>
+						<h:panelGrid columns="4">
+						<h:outputLabel value="Username" />
+						<p:inputText value="#{adminBean.user.login}" label="Username" required="true"/>
+						<h:outputLabel value="Profil" for="profil" />
+						<p:selectOneMenu id="profil" value="#{adminBean.user.profil}" required="true" style="width:150px" label="User profil"  effect="fold" editable="false">
+							<f:selectItem itemLabel="User" itemValue="User" />
+							<f:selectItem itemLabel="Admin" itemValue="Admin" />
+							<f:selectItem itemLabel="Visitor" itemValue="Visitor" />
+						</p:selectOneMenu>
+						<h:outputLabel value="Password" />
+						<p:password id="pwd" value="#{adminBean.user.pwd}" label="Password" match="pwdConfirm" required="true"/>
+						<h:outputLabel value="Confirm password" />
+						<p:password id="pwdConfirm" value="#{adminBean.user.pwdConfirm}" label="Confirm password" required="true"/>
+						</h:panelGrid>
+						<p:commandButton actionListener="#{adminBean.cancelUser}" icon="ui-icon-arrowrefresh-1-w" value="Cancel" update="@form"/> 
+						<p:spacer width="30"/>
+						<p:commandButton actionListener="#{adminBean.saveUser}" icon="ui-icon-disk" value="Validate" update="@form :messages"/>
+					</h:form>
+				</p:tab>
+				<p:tab title="Facility's Service">
+					Not yet implemented!!!
+				</p:tab>
+			</p:accordionPanel>
 	</ui:define>
 </ui:composition>

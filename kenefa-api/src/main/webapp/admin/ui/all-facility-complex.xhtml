@@ -6,7 +6,7 @@
   
         <p:dataTable var="facility" value="#{homeBean.facilities}"  rowKey="#{facility.id}" paginator="true" rows="10"  
                 selection="#{homeBean.currentFacility}" selectionMode="single" filteredValue="#{homeBean.filteredFacilites}" id="facilitiesTable">  
-        <p:ajax event="rowSelect" immediate="true" update=":formFacility:display" oncomplete="facilityDialog.show()" />  
+        <p:ajax event="rowSelect" immediate="true" update=":display" oncomplete="facilityDialog.show()" />  
 
         <p:column headerText="Name" sortBy="#{facility.name}" filterBy="#{facility.name}" id="name">  
             #{facility.name}  

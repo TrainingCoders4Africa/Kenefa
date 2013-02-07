@@ -14,49 +14,49 @@
     </ui:define>
 
     <ui:define name="sidebar">
-    		<!-- ui:include src="tree.xhtml" /-->
-    		<p:panel header="Indication" style="width:99%;">
+    		<p:panel header="Facilities" style="width:99%;">
     			<ul>
     				<li>Note that facility name is required, also country and city location</li>
     				<li>Geolocation: set the longitude and the latitude in degrees format: ex. -17.56575 / 14.90665 </li>
     			</ul>
+    			<ui:include src="tree.xhtml" />
     		</p:panel>
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="formFacility">
-		<p:growl id="messages" showDetail="true"/>
+	<p:growl id="messages" showDetail="true"/>
+		<h:form id="formToolbar">
 			<p:toolbar>  
 		    <p:toolbarGroup align="left">  
-		        <p:commandButton type="button" value="Show list" icon="ui-icon-folder-open" onclick="facilityAll.show()"/>  
-		  		<p:commandButton type="button"  value="New" icon="ui-icon-document"/>
+		  		<!--p:commandButton type="button"  value="New" icon="ui-icon-document" actionListener="{homeBeancancelFacility}" update=":tabViewHome:formFacility"/>
 		        <p:separator />  
 		  
 		        <p:commandButton type="button" title="Save" icon="ui-icon-disk" />  
 		        <p:commandButton type="button" title="Print" icon="ui-icon-print"/> 
-		        <p:separator />  <p:separator />  
-		        <p:commandButton type="button" title="Sync" icon="ui-icon-refresh" update="tabConsultation" immediate="true" actionListener="#{homeBean.syncTree}"/> 
+		        <p:separator />    
+		        <p:commandButton type="button" title="Sync" icon="ui-icon-refresh" update="tabConsultation" actionListener="{homeBeansyncTree}"/>
+		        --> 
 		    </p:toolbarGroup>  
 		    <p:toolbarGroup align="right">  
-		        <p:menuButton value="Options">  
-		            <p:menuitem value="Kenefa map" outcome="/admin/ui/mapMindFacility.xhtml" />  
+		        <p:menuButton value="Plus">  
+		            <p:menuitem value="Kenefa MindMap" outcome="/admin/ui/mapMindFacility.xhtml" />  
 		            <p:menuitem value="Home" outcome="/admin/ui/home.xhtml" />  
 		        </p:menuButton>  
 		    </p:toolbarGroup> 
 		  </p:toolbar> 
-		  <p:tabView style="width:99%">
-		  	<p:tab title="New Facility">
-		  		<ui:include src="facility-form.xhtml" />
-		  		<center>
-		  		<p:commandButton actionListener="#{homeBean.cancelFacility}" icon="ui-icon-arrowrefresh-1-w" value="Cancel" update=":formFacility"/> 
-				<p:spacer width="30"/>
-				<p:commandButton actionListener="#{homeBean.saveFacility}" icon="ui-icon-disk" value="Validate" update=":formFacility"></p:commandButton>
-				</center>
+	</h:form>
+	
+		  <p:tabView id="tabViewHome" style="width:99%">
+		  	<p:tab title="New Facility" >
+		  		<h:form id="formFacility">
+		  			<ui:include src="create-facility.xhtml" />
+		  		</h:form>
 		  	</p:tab>
-		  	<p:tab title="Consultation" id="tabConsultation">
-				<p:treeTable value="#{homeBean.treeRoot}" selectionMode="single"  
-                                selection="#{homeBean.selectedTree}" var="root" scrollable="true" scrollHeight="300" >  
-                     <p:ajax event="select" listener="#{homeBean.onFacilitySelect}" />
+		  	<p:tab title="Consultation" >
+		  	<h:form id="formTreeTable">
+				<p:treeTable id="tabConsultation" value="#{homeBean.treeRoot}" selectionMode="single"  
+                                selection="#{homeBean.selectedTreeNode}" var="root" scrollable="true" scrollHeight="400" >  
+                     <p:ajax event="select" listener="#{homeBean.onFacilitySelect}"  update=":tabView"  />
 		        <f:facet name="header">  
 		           Facilities by country and city  
 		        </f:facet>  
@@ -78,14 +78,15 @@
 		            </f:facet>  
 		            <h:outputText value="#{root.latitude}" />  
 		        </p:column>  
-		        <p:column style="width:20px">  
-		            <p:commandLink  title="View Detail"  update=":formFacility:tabView" oncomplete="details.show()" styleClass="ui-icon ui-icon-search">  
-		            </p:commandLink>  
+		        <p:column style="width:20px">
+		            <p:commandLink  title="View Detail" rendered="#{root.uiType=='facility'}"  update=":tabView" oncomplete="details.show()" styleClass="ui-icon ui-icon-search"/>  
 		        </p:column>  
-		    </p:treeTable>  
+		    </p:treeTable> 
+		    </h:form> 
 		  	</p:tab>
 		  </p:tabView>
-				<p:dialog id="idDtail" widgetVar="details" header="Facility Details"  showEffect="fade" hideEffect="fade">  
+		  
+			 <p:dialog id="idDtail" widgetVar="details" header="Facility Details"  showEffect="fade" hideEffect="fade">  
 			        <p:tabView id="tabView">  
 			            <p:tab id="tab1" title="General Info">  
 			                <ui:include src="facility-form-details.xhtml" />
@@ -93,10 +94,5 @@
 			         </p:tabView>
 			  </p:dialog>  
 		  			
-			<p:dialog id="idFacilityAll" widgetVar="facilityAll" header="All facilities"  modal="true" showEffect="fade" hideEffect="fade">
-		    	<ui:include src="facility-all.xhtml" />
-	   		</p:dialog>
-	   		
-		</h:form> 
 	</ui:define>
 </ui:composition>

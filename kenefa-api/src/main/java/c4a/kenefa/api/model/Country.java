@@ -6,8 +6,11 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,6 +23,7 @@ import c4a.kenefa.api.model.embedded.City;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Country {
 	@Id	
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "_id")
 	protected String id;
 	protected String name = null;
@@ -32,6 +36,14 @@ public class Country {
 	protected Double longitude = null;
 	protected Double latitude = null;
 	
+	/**
+	 * Allow to differentiate objects (country, city and facity) in the UI TreeTable (Backoffice)
+	 * TODO Duplicate code in the three class, can be avoided by in a super abstract class
+	 * @return
+	 */
+	@Transient
+	private String uiType;
+	
 	public Country() {
 		super();
 	}
@@ -41,6 +53,8 @@ public class Country {
 		this.name = name;
 	}
 
+	
+	
 	
 	// getters and setters
 	public String getId() {
@@ -131,6 +145,14 @@ public class Country {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public String getUiType() {
+		return "country";
+	}
+
+	public void setUiType(String uiType) {
+		this.uiType = uiType;
 	}
 
 }

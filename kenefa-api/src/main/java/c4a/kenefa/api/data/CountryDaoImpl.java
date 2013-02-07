@@ -53,6 +53,8 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 		return l;
 	}
 	
+	
+	
 	@SuppressWarnings("unchecked")
 	public List<Facility> getFacilitiesByCountry(String country){
 		String qstr = "SELECT f FROM " + Facility.class.getName() + " f where f.country = '"+country+"'";
@@ -83,6 +85,7 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 //		cf.setId(country.getId());
 //		cf.setName(country.getName());
 		cf.setStatistics(getCountryStatistics(id));
+		cf.setStatScope(getCountryStatScope(id));
 		//Map<String, Long> map = getCountryStatistics(id);
 		//LOGGER.info("COUNTRY sTATIsTICs :" +map.size());
 		cf.setTopFacilities(getCountryTopBottomFacilities(id, "ASC", 5));
@@ -113,6 +116,18 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 		Map<String, Long> hm = new HashMap<String, Long>();
 		String qstr="SELECT f.type, COUNT(f.id) FROM "+Facility.class.getName()+
 				" f WHERE f.country='"+countryName+"' GROUP BY f.type";
+		TypedQuery<Object[]> query =dao.getEm().createQuery(qstr,Object[].class);
+		List<Object[]> results = query.getResultList();
+		for(Object[] result : results){
+			hm.put((String)result[0], (Long)result[1]);
+		}
+		return hm;
+	}
+	
+	private Map<String, Long> getCountryStatScope(String countryName){
+		Map<String, Long> hm = new HashMap<String, Long>();
+		String qstr="SELECT f.scope, COUNT(f.id) FROM "+Facility.class.getName()+
+				" f WHERE f.country='"+countryName+"' GROUP BY f.scope";
 		TypedQuery<Object[]> query =dao.getEm().createQuery(qstr,Object[].class);
 		List<Object[]> results = query.getResultList();
 		for(Object[] result : results){
@@ -156,6 +171,20 @@ public class CountryDaoImpl<E> implements CountryDao<E>{
 ////		}
 //		return fc;// topFacilities;
 //	}
+	
+	/**
+	 * 
+	 * @param sens : must be ASC or DESC
+	 * @param number : number of facilities
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public List<Facility> getTopBottomFacilities(String sens,  int number){
+		String qstr = "SELECT f FROM " + Facility.class.getName() +" f ORDER BY f.rating.overall " + sens;
+				Query query = dao.getEm().createQuery(qstr);
+		return query.setMaxResults(number).getResultList();
+	}
 	
 	@SuppressWarnings({ "unchecked" })
 	private List<Facility> getCountryTopBottomFacilities(String country, String sens,  int number){

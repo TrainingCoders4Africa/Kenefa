@@ -4,15 +4,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	
-      		<p:scrollPanel style="width:99%;height:560px">
+      		<p:scrollPanel style="width:99%;height:440px">
     					<h:form id="formTree">   
                             <p:contextMenu for="docTree">  
-                                <p:menuitem value="View" update=":formFacility" actionListener="#{homeBean.displaySelectedFacility}" icon="ui-icon-search" />  
+                                <p:menuitem value="View" update=":tabViewHome:formFacility" actionListener="#{homeBean.displaySelectedFacility}" icon="ui-icon-search" />  
                                 <p:menuitem value="Delete"  icon="ui-icon-close" onclick="confirmation.show()"/>  
                             </p:contextMenu>    
                             <p:confirmDialog id="confirmDialog" message="Are you sure about deleting this facility?"  
 						                header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
-						        <p:commandButton id="confirm" value="Yes Sure" update="@form" actionListener="#{homeBean.removeFacility}" oncomplete="confirmation.hide()"  />  
+						        <p:commandButton id="confirm" value="Yes Sure" update="docTree" actionListener="#{homeBean.removeFacility}" oncomplete="confirmation.hide()"  />  
 						        <p:commandButton id="decline" value="Not Yet" onclick="confirmation.hide()" type="button" />   
 						    </p:confirmDialog>  
                                  

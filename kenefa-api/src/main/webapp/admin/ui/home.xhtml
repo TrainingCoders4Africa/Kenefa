@@ -14,7 +14,10 @@
     </ui:define>
 
     <ui:define name="sidebar">
-    		<ui:include src="tree.xhtml" />
+    		<p:panel header="Home - Welcome!!!" style="height:557px">
+    			<h3>Kenefa</h3> stands for health in <em>Bambara</em> a largely spoken African language in West Africa.<br/><br/>
+				Kenefa is a centralized data repository system, a wealth of easily accessible, standardized, structured, searchable and downloadable data on doctors, nurses, health agents, hospitals, clinics and any other health facility type private or public for every city and country in Africa. This data intelligence tool aims to support better decision-making and immediate action to remedy continental health issues in Africa.
+    		</p:panel>
 	</ui:define>
 
 	<ui:define name="content">
@@ -35,15 +38,15 @@
 		    </p:toolbarGroup> 
 		  </p:toolbar> 
 		  <p:panel id="chartHome" menuTitle="Facility form">
-		   	<p:barChart id="basic" value="#{chartBean.categoryModel}" legendPosition="ne"  
-	            	title="Capacity for 5 Bottom Facilities" min="0" max="200" style="height:250px"/>  
-			<p:barChart id="horizontal" value="#{chartBean.categoryTopFacilitiz}" legendPosition="se" style="height:250px"  
-	            	title="Capacity for 5 Top Facilities" orientation="horizontal" min="0" max="200"/>  
+		   	<p:barChart id="basic" value="#{chartBean.catTopFacAfric}" legendPosition="ne"  
+	            	title="Capacity for 5 Top Facilities in Africa" min="0" max="200" style="height:250px"/>  
+			<p:barChart id="horizontal" value="#{chartBean.catBottomFacAfric}" legendPosition="se" style="height:250px"  
+	            	title="Capacity for 5 Bottom Facilities in Africa" orientation="horizontal" min="0" max="200"/>  
 		  </p:panel>
 			
-			<p:dialog id="idFacilityAll" widgetVar="facilityAll" header="All facilities"  modal="true" showEffect="fade" hideEffect="fade">
+			<!--p:dialog id="idFacilityAll" widgetVar="facilityAll" header="All facilities"  modal="true" showEffect="fade" hideEffect="fade">
 		    	<ui:include src="all-facility-complex.xhtml" />
-	   		</p:dialog>
+	   		</p:dialog-->
 		</h:form> 
 	</ui:define>
 </ui:composition>
